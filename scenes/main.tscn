@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://d1l2bdq6b5d43"]
+
+[ext_resource type="Script" path="res://scenes/xr_origin_3d.gd" id="1_tti6x"]
+
+[node name="Origin" type="Node3D"]
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+current = true
+script = ExtResource("1_tti6x")
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+current = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.24585, -0.643042, -0.132568)
+size = Vector3(5.35693, 1, 5.66064)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.72089, 0.300605, 1.41421)
+size = Vector3(1.28513, 1, 1.39862)
