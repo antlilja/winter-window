@@ -1,8 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://d1l2bdq6b5d43"]
+[gd_scene load_steps=3 format=3 uid="uid://d1l2bdq6b5d43"]
 
 [ext_resource type="Script" path="res://scenes/xr_origin_3d.gd" id="1_tti6x"]
+[ext_resource type="Script" path="res://scripts/right_hand.gd" id="2_fsave"]
 
 [node name="Origin" type="Node3D"]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
 
 [node name="XROrigin3D" type="XROrigin3D" parent="."]
 current = true
@@ -11,10 +14,22 @@ script = ExtResource("1_tti6x")
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
 current = true
 
+[node name="RightHand" type="XRController3D" parent="XROrigin3D"]
+tracker = &"right_hand"
+script = ExtResource("2_fsave")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="XROrigin3D/RightHand"]
+transform = Transform3D(0.140753, 0, 0, 0, 0.125789, 0, 0, 0, 0.337367, 0, 0, 0)
+
+[node name="LeftHand" type="XRController3D" parent="XROrigin3D"]
+tracker = &"left_hand"
+
+[node name="CSGBox3D" type="CSGBox3D" parent="XROrigin3D/LeftHand"]
+transform = Transform3D(0.140753, 0, 0, 0, 0.125789, 0, 0, 0, 0.337367, 0, 0, 0)
+
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.24585, -0.643042, -0.132568)
 size = Vector3(5.35693, 1, 5.66064)
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.72089, 0.300605, 1.41421)
-size = Vector3(1.28513, 1, 1.39862)
+[connection signal="button_pressed" from="XROrigin3D/RightHand" to="XROrigin3D" method="_on_right_hand_button_pressed"]
+[connection signal="input_float_changed" from="XROrigin3D/RightHand" to="XROrigin3D" method="_on_right_hand_input_float_changed"]

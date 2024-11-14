@@ -12,3 +12,13 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
+
+
+func _on_right_hand_button_pressed(name: String) -> void:
+	print(name)
+	pass # Replace with function body.
+
+
+func _on_right_hand_input_float_changed(name: String, value: float) -> void:
+	print(name + " value: " + str(value))
+	pass # Replace with function body.
