@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://uavx4e86b2qm"]
+
+[ext_resource type="Script" path="res://scenes/realsensetest.gd" id="1_508mh"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_k0wf6"]
+
+[node name="Realsensetest" type="Node3D"]
+script = ExtResource("1_508mh")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = SubResource("ImageTexture_k0wf6")
