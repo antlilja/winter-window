@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://14k41w51c3r5"]
+
+[ext_resource type="PackedScene" uid="uid://byg0t3p6j6o1w" path="res://scenes/snowGround.tscn" id="1_b0l2x"]
+[ext_resource type="PackedScene" uid="uid://dmsc5eiausnd7" path="res://scenes/Snow_particles.tscn" id="2_eumpn"]
+
+[node name="Node3D" type="Node3D"]
+metadata/_edit_group_ = true
+
+[node name="Node3D" parent="." instance=ExtResource("1_b0l2x")]
+
+[node name="GPUParticles3D" parent="Node3D" instance=ExtResource("2_eumpn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.251035, 4.49213, -0.570162)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.974785, 0.223148, 0, -0.223148, 0.974785, 0, 1.65009, 9.41602)
