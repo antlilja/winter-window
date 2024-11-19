@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://d3wcutjiijtfx"
+path="res://.godot/imported/convert_depth.glsl-3116cab9e581fcac80f02ad941c6f465.res"
+
+[deps]
+
+source_file="res://shaders/convert_depth.glsl"
+dest_files=["res://.godot/imported/convert_depth.glsl-3116cab9e581fcac80f02ad941c6f465.res"]
+
+[params]
+
