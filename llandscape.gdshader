@@ -1,5 +1,5 @@
 shader_type spatial;
-uniform sampler2D normalTexture;
+uniform sampler2D viewportTexture;
 uniform sampler2D noiseTexture;
 
 void vertex() {
@@ -7,6 +7,14 @@ void vertex() {
 	float rawMean = (color.x + color.y + color.z) / 3.0;
 	float clamped = clamp(rawMean, 0.0, 1.0);
 	VERTEX.y = clamped;
+	
+	
+	
+	vec3 vpColor = texture(viewportTexture, UV).rgb;
+	float vpcMean = (vpColor.x + vpColor.y + vpColor.z) / 3.0;
+	if (vpcMean != rawMean) {
+		VERTEX.y = 0.0;
+	}
 	
 }
 
