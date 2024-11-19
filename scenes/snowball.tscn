@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://c34bbjjb2j0d5"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_bpj7e"]
+radius = 0.05
+
+[sub_resource type="SphereMesh" id="SphereMesh_mrf5k"]
+radius = 0.05
+height = 0.1
+
+[node name="Snowball" type="RigidBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_bpj7e")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_mrf5k")

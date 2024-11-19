@@ -1,7 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://d1l2bdq6b5d43"]
+[gd_scene load_steps=8 format=3 uid="uid://d1l2bdq6b5d43"]
 
 [ext_resource type="Script" path="res://scenes/xr_origin_3d.gd" id="1_tti6x"]
 [ext_resource type="Script" path="res://scripts/right_hand.gd" id="2_fsave"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g11yq"]
+size = Vector3(0.05, 0.05, 0.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_t2yqr"]
+size = Vector3(0.05, 0.05, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_58503"]
+size = Vector3(0.05, 0.05, 0.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_eosli"]
+size = Vector3(0.05, 0.05, 0.2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ortcs"]
 size = Vector3(5.34534, 1, 5.68835)
@@ -9,6 +21,7 @@ size = Vector3(5.34534, 1, 5.68835)
 [node name="Origin" type="Node3D"]
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
 
 [node name="XROrigin3D" type="XROrigin3D" parent="."]
 current = true
@@ -21,24 +34,36 @@ current = true
 tracker = &"right_hand"
 script = ExtResource("2_fsave")
 
-[node name="CSGBox3D" type="CSGBox3D" parent="XROrigin3D/RightHand"]
-transform = Transform3D(0.140753, 0, 0, 0, 0.125789, 0, 0, 0, 0.337367, 0, 0, 0.0860626)
-size = Vector3(0.5, 0.5, 0.5)
+[node name="ControllerRep" type="StaticBody3D" parent="XROrigin3D/RightHand"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/RightHand/ControllerRep"]
+shape = SubResource("BoxShape3D_g11yq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/RightHand/ControllerRep"]
+mesh = SubResource("BoxMesh_t2yqr")
 
 [node name="LeftHand" type="XRController3D" parent="XROrigin3D"]
 tracker = &"left_hand"
 
 [node name="CSGBox3D" type="CSGBox3D" parent="XROrigin3D/LeftHand"]
-transform = Transform3D(0.140753, 0, 0, 0, 0.125789, 0, 0, 0, 0.337367, 0, 0, 0.0855863)
+transform = Transform3D(0.140753, 0, 0, 0, 0.125789, 0, 0, 0, 0.337367, 0, 0.566526, 0.0855863)
 size = Vector3(0.5, 0.5, 0.5)
 
-[node name="CSGBox3D" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.24585, -0.643042, -0.132568)
+[node name="StaticBody3D" type="StaticBody3D" parent="XROrigin3D/LeftHand"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/LeftHand/StaticBody3D"]
+shape = SubResource("BoxShape3D_58503")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/LeftHand/StaticBody3D"]
+mesh = SubResource("BoxMesh_eosli")
+
+[node name="Ground" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.246, 0, -0.133)
 size = Vector3(5.35693, 1, 5.66064)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="CSGBox3D"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Ground"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CSGBox3D/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00347897, 0, -0.0230103)
 shape = SubResource("BoxShape3D_ortcs")
 
