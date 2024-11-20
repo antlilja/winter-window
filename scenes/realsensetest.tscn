@@ -1,13 +1,35 @@
-[gd_scene load_steps=3 format=3 uid="uid://uavx4e86b2qm"]
+[gd_scene load_steps=6 format=3 uid="uid://uavx4e86b2qm"]
 
 [ext_resource type="Script" path="res://scenes/realsensetest.gd" id="1_508mh"]
+[ext_resource type="Shader" path="res://shaders/depth.gdshader" id="2_04bsw"]
 
-[sub_resource type="ImageTexture" id="ImageTexture_k0wf6"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kiqmy"]
+render_priority = 0
+shader = ExtResource("2_04bsw")
+shader_parameter/show_depth = false
+shader_parameter/far = 8.0
+shader_parameter/near = 0.1
+
+[sub_resource type="QuadMesh" id="QuadMesh_8a5lx"]
+material = SubResource("ShaderMaterial_kiqmy")
+flip_faces = true
+size = Vector2(2, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2kwkr"]
+albedo_color = Color(1, 0, 0, 1)
 
 [node name="Realsensetest" type="Node3D"]
 script = ExtResource("1_508mh")
 
-[node name="TextureRect" type="TextureRect" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
-texture = SubResource("ImageTexture_k0wf6")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("QuadMesh_8a5lx")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+fov = 42.5
+near = 0.1
+far = 8.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(0.172818, 0, -0.245222, -0.119959, 0.261654, -0.0845401, 0.213878, 0.146755, 0.150729, 0, 0, 1.37416)
+material_override = SubResource("StandardMaterial3D_2kwkr")

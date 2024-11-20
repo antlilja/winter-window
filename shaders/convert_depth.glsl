@@ -14,11 +14,13 @@ layout(set = 0, binding = 1, std430) restrict buffer DepthBufferOut {
 
 void main() {
 	uint data = depth_buffer_in.data[(gl_GlobalInvocationID.x + 848 * gl_GlobalInvocationID.y) / 2];
-    vec2 unpacked = unpackUnorm2x16(data);
+    float depth;
     if (gl_GlobalInvocationID.x % 2 == 0) {
-        depth_buffer_out.data[gl_GlobalInvocationID.x + 848 * gl_GlobalInvocationID.y] = unpacked.x * 10.0f;
+        depth = float(data & 0xffff) / 1000.0f; //unpacked.x / 1000.0f;
     } else {
-        depth_buffer_out.data[gl_GlobalInvocationID.x + 848 * gl_GlobalInvocationID.y] = unpacked.y * 10.0f;  
+        depth = float((data >> 16) & 0xffff) / 1000.0f; //unpacked.x / 1000.0f;
     }
+
+	depth_buffer_out.data[gl_GlobalInvocationID.x + 848 * gl_GlobalInvocationID.y] = depth;
 }
 

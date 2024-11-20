@@ -1,6 +1,6 @@
 extends Node3D
 
-@onready var texture_rect = $TextureRect
+@onready var mesh = $MeshInstance3D
 
 var rd := RenderingServer.create_local_rendering_device()
 
@@ -12,7 +12,9 @@ var buffer_in := rd.storage_buffer_create(848 * 480 * 2)
 var buffer_out := rd.storage_buffer_create(848 * 480 * 4)
 
 var uniform_set: RID
-var image: Image
+var colour_image: Image
+var depth_image: Image
+var material: Material
 
 func _ready() -> void:
 	RealSense.open()
@@ -27,8 +29,10 @@ func _ready() -> void:
 	uniform2.add_id(buffer_out)
 	uniform_set = rd.uniform_set_create([uniform, uniform2], shader, 0) # the last parameter (the 0) 
 	
-	image = Image.create(848, 480, false, Image.Format.FORMAT_RF)
-	texture_rect.texture.set_image(image)
+	colour_image = Image.create(1920, 1080, false, Image.Format.FORMAT_RGB8)
+	depth_image = Image.create(848, 480, false, Image.Format.FORMAT_RF)
+	
+	material = mesh.get_active_material(0)
 
 func _notification(what: int) -> void:
 	if (what == NOTIFICATION_PREDELETE):
@@ -38,11 +42,7 @@ func _notification(what: int) -> void:
 
 func _process(delta: float) -> void:
 	if RealSense.poll_frame():
-		#var data = RealSense.get_colour_image()
-		#var image = Image.create_from_data(1920, 1080, false, Image.Format.FORMAT_RGB8, data)
-		var depth_data = RealSense.get_depth_image()
-		
-		rd.buffer_update(buffer_in, 0, 848 * 480 * 2, depth_data)
+		rd.buffer_update(buffer_in, 0, 848 * 480 * 2, RealSense.get_depth_image())
 		
 		var compute_list := rd.compute_list_begin()
 		rd.compute_list_bind_compute_pipeline(compute_list, pipeline)
@@ -51,8 +51,15 @@ func _process(delta: float) -> void:
 		rd.compute_list_end()
 		
 		rd.submit()
-		rd.sync()
 		
+		colour_image.set_data(1920, 1080, false, Image.Format.FORMAT_RGB8, RealSense.get_colour_image())
+		var colour_texture = ImageTexture.create_from_image(colour_image)
+		material.set_shader_parameter("colour_texture", colour_texture) 
+		
+		rd.sync()
 		var output_bytes := rd.buffer_get_data(buffer_out)
-		image.set_data(848, 480, false, Image.Format.FORMAT_RF, output_bytes)
-		texture_rect.texture.set_image(image)
+		var float_data = output_bytes.to_float32_array();
+		print(float_data[848 * 240 + 424])
+		depth_image.set_data(848, 480, false, Image.Format.FORMAT_RF, output_bytes)
+		var depth_texture = ImageTexture.create_from_image(depth_image)
+		material.set_shader_parameter("depth_texture", depth_texture) 
