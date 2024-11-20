@@ -43,7 +43,7 @@ material_override = SubResource("ShaderMaterial_6fg38")
 mesh = SubResource("PlaneMesh_m7i85")
 
 [node name="testkub2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.77028, 1.47308, -7.63944)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.77028, 1.29053, -8.29261)
 mesh = SubResource("BoxMesh_passq")
 skeleton = NodePath("../testkub")
 
@@ -54,12 +54,13 @@ mesh = SubResource("BoxMesh_passq")
 [node name="SubViewport" type="SubViewport" parent="."]
 
 [node name="Camera3D" type="Camera3D" parent="SubViewport"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.013, -0.629435, -0.041)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.013, -1.01435, -0.041)
 projection = 1
 fov = 71.0
 size = 20.05
+far = 5.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewport"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.663735, 0)
 mesh = SubResource("QuadMesh_qse02")
 surface_material_override/0 = SubResource("ShaderMaterial_gi0d3")

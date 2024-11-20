@@ -9,8 +9,8 @@ void vertex() {
 	float clamped = clamp(rawMean, 0.0, 1.0);
 	
 	VERTEX.y = clamped;
-	if (texture(viewportTexture, UV).r >= 0.1){
-		VERTEX.y = 0.0;
+	if (texture(viewportTexture, UV).r >= 0.0){
+		//VERTEX.y = 0.0;
 	}
 		
 	
