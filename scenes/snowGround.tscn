@@ -43,7 +43,7 @@ material_override = SubResource("ShaderMaterial_6fg38")
 mesh = SubResource("PlaneMesh_m7i85")
 
 [node name="testkub2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.77028, 1.29053, -8.29261)
+transform = Transform3D(0.999998, -0.00216421, 0, 0.00216421, 0.999998, 0, 0, 0, 1, -7.77, 0, -8.293)
 mesh = SubResource("BoxMesh_passq")
 skeleton = NodePath("../testkub")
 
