@@ -15,7 +15,7 @@ void vertex() {
 void fragment() {
 	float depth = texture(depth_texture, SCREEN_UV).x;
 	depth = clamp(depth, near, far);
-	depth = 1.0 - ((depth - near) / (far - near));
+	depth = 1.0 - ((depth * (near / (far - near))) + ((far * near) / (far - near))) / depth;
 	DEPTH = depth;
 	
 	if(show_depth) {
