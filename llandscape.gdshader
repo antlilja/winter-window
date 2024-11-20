@@ -1,6 +1,7 @@
 shader_type spatial;
 uniform sampler2D viewportTexture;
 uniform sampler2D noiseTexture;
+uniform sampler2D depth_texture : source_color, hint_depth_texture;
 
 void vertex() {
 	vec3 color = texture(noiseTexture, UV).rgb;
@@ -10,19 +11,19 @@ void vertex() {
 	
 	
 	
-	vec3 vpColor = texture(viewportTexture, UV).rgb;
-	float vpcMean = (vpColor.x + vpColor.y + vpColor.z) / 3.0;
-	if (vpcMean != rawMean) {
-		VERTEX.y = 0.0;
-	}
+	
 	
 }
 
 void fragment() {
+	/*
 	vec3 color = texture(noiseTexture, UV).rgb;
 	float rawMean = (color.x + color.y + color.z) / 3.0;
 	float clamped = clamp(rawMean, 0.5, 1.0);	
-	ALBEDO = vec3(clamped);
+	ALBEDO = vec3(clamped);*/
+	
+  // Visualize linear depth
+  //ALBEDO.rgb = vec3(fract(linear_depth));
 }
 
 //void light() {

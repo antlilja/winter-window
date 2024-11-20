@@ -13,3 +13,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.251035, 4.49213, -0.570162)
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.974785, 0.223148, 0, -0.223148, 0.974785, 0, 1.65009, 9.41602)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
