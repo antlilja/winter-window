@@ -1,4 +1,5 @@
 shader_type spatial;
+render_mode unshaded, fog_disabled;
 uniform sampler2D depth_texture : source_color, hint_depth_texture;
 void vertex() {
 	// Called for every vertex the material is visible on.
@@ -16,7 +17,7 @@ void fragment() {
   vec3 world_position = world.xyz / world.w;
 
   // Visualize linear depth
-  ALBEDO.rgb = vec3(linear_depth);
+  ALBEDO.rgb = vec3(depth);
 }
 
 //void light() {
