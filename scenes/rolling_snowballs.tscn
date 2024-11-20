@@ -1,0 +1,73 @@
+[gd_scene load_steps=10 format=3 uid="uid://cyypkhn50utq2"]
+
+[ext_resource type="Script" path="res://scripts/snowball.gd" id="1_ddbh8"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_j4y6r"]
+friction = 0.17
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_04btx"]
+radius = 0.3
+
+[sub_resource type="SphereMesh" id="SphereMesh_kuct7"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i6bli"]
+size = Vector3(10, 1, 10)
+
+[sub_resource type="BoxMesh" id="BoxMesh_c7agw"]
+size = Vector3(10, 1, 10)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_3ul72"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mql3x"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_eq82t"]
+material = SubResource("StandardMaterial3D_mql3x")
+
+[node name="Root" type="Node3D"]
+
+[node name="Ground" type="CSGBox3D" parent="." groups=["ground"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.24585, -0.643042, -0.132568)
+visible = false
+size = Vector3(5.35693, 1, 5.66064)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.938511, 0.345249, 0, -0.345249, 0.938511, 0, 1.05349, 1.74629)
+current = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.0437588, 0.999042, 0, -0.999042, 0.0437588, 0, 1.82454, 0)
+
+[node name="Snowball" type="RigidBody3D" parent="." groups=["snowball"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0145998, -0.803613, -1.29301)
+physics_material_override = SubResource("PhysicsMaterial_j4y6r")
+script = ExtResource("1_ddbh8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Snowball"]
+shape = SubResource("SphereShape3D_04btx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Snowball"]
+mesh = SubResource("SphereMesh_kuct7")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+shape = SubResource("BoxShape3D_i6bli")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+mesh = SubResource("BoxMesh_c7agw")
+
+[node name="Colliding Snowball" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0751871, -0.66344, 0.746284)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Colliding Snowball"]
+shape = SubResource("SphereShape3D_3ul72")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Colliding Snowball"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.79408, -0.386882, -2.0585)
+mesh = SubResource("SphereMesh_eq82t")
+
+[connection signal="body_entered" from="Snowball" to="Snowball" method="_on_body_entered"]
+[connection signal="body_shape_entered" from="Snowball" to="Snowball" method="_on_body_shape_entered"]
