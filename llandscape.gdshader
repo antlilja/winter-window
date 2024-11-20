@@ -1,13 +1,19 @@
 shader_type spatial;
 uniform sampler2D viewportTexture;
 uniform sampler2D noiseTexture;
-uniform sampler2D depth_texture : source_color, hint_depth_texture;
+
 
 void vertex() {
 	vec3 color = texture(noiseTexture, UV).rgb;
 	float rawMean = (color.x + color.y + color.z) / 3.0;
 	float clamped = clamp(rawMean, 0.0, 1.0);
+	
 	VERTEX.y = clamped;
+	if (texture(viewportTexture, UV).r >= 0.1){
+		VERTEX.y = 0.0;
+	}
+		
+	
 	
 	
 	
