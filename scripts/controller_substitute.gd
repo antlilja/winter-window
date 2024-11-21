@@ -39,3 +39,6 @@ func create_snowball():
 	var snowball: RigidBody3D = snowball_scene.instantiate()
 	current_snowball = snowball
 	add_child(snowball)
+	
+	snowball.init_large()
+	

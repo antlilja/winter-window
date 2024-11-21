@@ -6,12 +6,12 @@ extends RigidBody3D
 # push variables
 @export var grounded = true
 @export var scale_factor = 1.001
-
+@export var stacked = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
-
+	pass
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	
@@ -20,6 +20,10 @@ func _process(delta):
 		collision.scale = collision.scale*scale_factor
 		mesh.scale = mesh.scale*scale_factor
 
+func init_large():
+	collision.scale = collision.scale*10
+	mesh.scale = mesh.scale*10
+		
 func _on_body_entered(body):
 	print("collision")
 
