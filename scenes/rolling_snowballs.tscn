@@ -1,15 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://cyypkhn50utq2"]
+[gd_scene load_steps=11 format=3 uid="uid://cyypkhn50utq2"]
 
-[ext_resource type="Script" path="res://scripts/snowball.gd" id="1_ddbh8"]
 [ext_resource type="Script" path="res://scripts/controller_substitute.gd" id="2_lkk85"]
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_j4y6r"]
-friction = 0.08
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_04btx"]
-radius = 0.4
-
-[sub_resource type="SphereMesh" id="SphereMesh_kuct7"]
+[ext_resource type="PackedScene" uid="uid://c34bbjjb2j0d5" path="res://scenes/snowball.tscn" id="2_piheu"]
+[ext_resource type="Script" path="res://scripts/snowball_manager.gd" id="3_70a1a"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_i6bli"]
 size = Vector3(18.7573, 1, 12.9311)
@@ -45,18 +38,7 @@ current = true
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.0437588, 0.999042, 0, -0.999042, 0.0437588, 0, 1.82454, 0)
 
-[node name="Snowball" type="RigidBody3D" parent="." groups=["snowball"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0145998, 1.50225, -1.29301)
-physics_material_override = SubResource("PhysicsMaterial_j4y6r")
-script = ExtResource("1_ddbh8")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Snowball"]
-shape = SubResource("SphereShape3D_04btx")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Snowball"]
-mesh = SubResource("SphereMesh_kuct7")
-
-[node name="Playground" type="StaticBody3D" parent="."]
+[node name="Playground" type="StaticBody3D" parent="." groups=["ground"]]
 
 [node name="Ground" type="CollisionShape3D" parent="Playground"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0197754, -2, -4.01254)
@@ -92,8 +74,8 @@ shape = SubResource("BoxShape3D_2kc6w")
 transform = Transform3D(0.622938, 0, 0.782271, 0, 1, 0, -0.782271, 0, 0.622938, -5.76153, -0.602206, 0.431613)
 shape = SubResource("BoxShape3D_2kc6w")
 
-[node name="ControllerSubstitute" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1002, 0.750113, -2.18433)
+[node name="ControllerSubstitute" type="RigidBody3D" parent="." groups=["controller"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.45976, 0.494047, -1.01481)
 gravity_scale = 0.0
 script = ExtResource("2_lkk85")
 
@@ -103,5 +85,12 @@ shape = SubResource("SphereShape3D_3ul72")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="ControllerSubstitute"]
 mesh = SubResource("SphereMesh_eq82t")
 
-[connection signal="body_entered" from="Snowball" to="Snowball" method="_on_body_entered"]
-[connection signal="body_shape_entered" from="Snowball" to="Snowball" method="_on_body_shape_entered"]
+[node name="Snowball" parent="." instance=ExtResource("2_piheu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.325657, -0.962869)
+
+[node name="Snowball2" parent="." instance=ExtResource("2_piheu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.16239, -1.64936)
+
+[node name="SnowballManager" type="Node3D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3_70a1a")

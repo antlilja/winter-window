@@ -1,17 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://c34bbjjb2j0d5"]
+[gd_scene load_steps=5 format=3 uid="uid://c34bbjjb2j0d5"]
 
 [ext_resource type="Script" path="res://scripts/snowball.gd" id="1_xwkjo"]
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mct0s"]
+
 [sub_resource type="SphereShape3D" id="SphereShape3D_bpj7e"]
-radius = 0.05
 
 [sub_resource type="SphereMesh" id="SphereMesh_mrf5k"]
-radius = 0.05
-height = 0.1
 
-[node name="Snowball" type="RigidBody3D"]
+[node name="Snowball" type="RigidBody3D" groups=["snowball"]]
 collision_layer = 131073
 collision_mask = 131073
+physics_material_override = SubResource("PhysicsMaterial_mct0s")
+contact_monitor = true
+max_contacts_reported = 5
+
 script = ExtResource("1_xwkjo")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -19,3 +22,6 @@ shape = SubResource("SphereShape3D_bpj7e")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_mrf5k")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

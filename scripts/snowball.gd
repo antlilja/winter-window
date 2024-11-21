@@ -1,31 +1,65 @@
 extends RigidBody3D
 
-@onready var collision = $CollisionShape3D
+@onready var collisionShape = $CollisionShape3D
 @onready var mesh = $MeshInstance3D
 
-# push variables
-@export var grounded = true
-@export var scale_factor = 1.001
-@export var stacked = 0
+@export var is_grounded = false
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
+# roll variables
+@export var scale_factor = 1.001
+
+# stack variables
+@export var attatched_snowballs = 0
 	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	
+func _physics_process(_delta : float):
 	# grow snowball if moving on ground
-	if grounded and linear_velocity.length() > 0.5:
-		collision.scale = collision.scale*scale_factor
+	if is_grounded and linear_velocity.length() > 0.5:
+		collisionShape.scale = collisionShape.scale*scale_factor
 		mesh.scale = mesh.scale*scale_factor
 
 func init_large():
-	collision.scale = collision.scale*10
-	mesh.scale = mesh.scale*10
-		
-func _on_body_entered(body):
-	print("collision")
+	collisionShape.scale = collisionShape.scale*10
+	mesh.scale = mesh.scale*10	
+	
+func lock_position():
+	linear_velocity = Vector3.ZERO
+	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_LINEAR_X, true)
+	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_LINEAR_Y, true)
+	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_LINEAR_Z, true)
+	
+func unlock_position():
+	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_LINEAR_X, false)
+	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_LINEAR_Y, false)
+	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_LINEAR_Z, false)
 
-func _on_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
-	print("collision")
+func set_grounded(grounded : bool):
+	is_grounded = grounded
+	if (grounded):
+		add_to_group("grounded")
+	else:
+		remove_from_group("grounded")
+	
+func _on_body_entered(body):
+	if body.is_in_group("ground"):
+		set_grounded(true)
+		
+	if body.is_in_group("snowball"):
+		
+		# don't attatch two grounded snowballs
+		if is_grounded and body.is_in_group("grounded"):
+			return
+			
+		attatched_snowballs += 1
+		lock_position()
+		
+	if body.is_in_group("controller") and not is_grounded: # could be more restrictive but would risk deadlock
+		unlock_position()
+
+func _on_body_exited(body) -> void:
+	if body.is_in_group("ground"):
+		set_grounded(false)
+		
+	if body.is_in_group("snowball"):
+		attatched_snowballs -= 1
+		if attatched_snowballs < 1:
+			unlock_position()
