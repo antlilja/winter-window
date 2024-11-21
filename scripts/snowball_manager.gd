@@ -14,7 +14,7 @@ func _process(delta: float) -> void:
 func create_snowball(position : Vector3):
 	var snowball: RigidBody3D = snowball_scene.instantiate()
 	snowball.linear_velocity = Vector3.ZERO
-	snowball.position = position
+	snowball.position = position + Vector3(0,-1,0)
 	
 	add_child(snowball)
 	if init_large:

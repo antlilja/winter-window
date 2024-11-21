@@ -1,30 +1,64 @@
-[gd_scene load_steps=5 format=3 uid="uid://c34bbjjb2j0d5"]
+[gd_scene load_steps=11 format=3 uid="uid://c34bbjjb2j0d5"]
 
 [ext_resource type="Script" path="res://scripts/snowball.gd" id="1_xwkjo"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mct0s"]
 
+[sub_resource type="Gradient" id="Gradient_6dndy"]
+offsets = PackedFloat32Array(0.0166667, 1)
+colors = PackedColorArray(0.684319, 0.867921, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_3c3ks"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_q2ni1"]
+color_ramp = SubResource("Gradient_6dndy")
+noise = SubResource("FastNoiseLite_3c3ks")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g5w6v"]
+albedo_texture = SubResource("NoiseTexture2D_q2ni1")
+
+[sub_resource type="SphereMesh" id="SphereMesh_mrf5k"]
+material = SubResource("StandardMaterial3D_g5w6v")
+radius = 0.05
+height = 0.1
+
 [sub_resource type="SphereShape3D" id="SphereShape3D_bpj7e"]
 radius = 0.05
 
-[sub_resource type="SphereMesh" id="SphereMesh_mrf5k"]
-radius = 0.05
-height = 0.1
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_oocuv"]
+points = PackedVector3Array(-0.960334, -0.50996, -0.0297929, 0.509894, 0.960122, 0.0299833, 0.509962, 0.96025, -0.0297872, 0.960579, -0.509902, -0.0296125, 0.0298891, -0.509894, 0.960311, -0.0298872, 0.510062, -0.96005, -0.960022, 0.509994, 0.0299833, 0.0298912, -0.960178, -0.50993, 0.0298832, 0.509994, 0.960122, 0.960143, 0.029799, 0.510058, 0.960271, 0.029803, -0.509926, -0.51003, -0.0297912, -0.960178, -0.509963, -0.0297872, 0.960252, -0.0298853, -0.95999, 0.51003, -0.509962, 0.96025, -0.0297872, 0.51003, -0.0297912, -0.960178, -0.96015, 0.0299872, -0.509862, -0.0298832, 0.960122, 0.509994, 0.509962, -0.96005, 0.0299872, -0.51003, -0.960178, -0.0297912, -0.960154, -0.0297873, 0.510064, -0.0298912, -0.50993, -0.960178, 0.509962, -0.0297872, 0.96025, 0.0298872, 0.96025, -0.509862, 0.960271, 0.510126, -0.029603, -0.509894, 0.0299833, 0.960122, -0.960209, -0.509894, 0.0299891, 0.0298872, 0.510062, -0.96005, 0.960446, -0.509831, 0.0298084, 0.510033, -0.960184, -0.0297913, -0.96015, 0.510062, -0.0297872, -0.0298888, -0.509889, 0.9603)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_crs8l"]
+points = PackedVector3Array(-0.706099, -1.2353, -0.0585959, 0.0586067, 1.88279, 0.0586067, 1.88279, -0.0586067, -0.0586067, -0.0586067, 0.0586067, -1.88279, -0.0586067, -0.0586067, 1.88279, -1.88279, 0.0586067, 0.0586067, 0.0586067, -1.88279, -0.0586067, 1.88279, -0.0586067, 0.0586067, 0.0586067, 0.0586067, -1.88279, -0.0586067, 1.88279, -0.0586067, -0.0586067, 0.0586067, 1.88279, -1.88279, 0.0586067, -0.0586067, -0.0586067, -1.88279, 0.0586067, 1.88279, 0.0586067, -0.0586067, -0.0586067, -0.0586067, -1.88279, 0.0586067, -0.0586067, 1.88279, -1.88279, -0.0586067, 0.0586067, 0.0586067, -1.88279, 0.0586067, -0.0586067, 1.88279, 0.0586067, 0.0586067, 1.88279, -0.0586067, 0.0586067, -0.0586067, -1.88279, 1.88279, 0.0586067, 0.0586067, 0.0586067, 0.0586067, 1.88279, -1.88279, -0.0586067, -0.0586067, -0.0586067, -1.88279, -0.0586067)
 
 [node name="Snowball" type="RigidBody3D" groups=["snowball"]]
 collision_layer = 131073
 collision_mask = 131073
+mass = 2.0
 physics_material_override = SubResource("PhysicsMaterial_mct0s")
+center_of_mass_mode = 1
+center_of_mass = Vector3(0.05, 0, 0.01)
 contact_monitor = true
 max_contacts_reported = 5
 
 script = ExtResource("1_xwkjo")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("SphereShape3D_bpj7e")
-
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_mrf5k")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+visible = false
+shape = SubResource("SphereShape3D_bpj7e")
+disabled = true
+
+[node name="CollisionPolygon3D_D20" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
+visible = false
+shape = SubResource("ConvexPolygonShape3D_oocuv")
+
+[node name="CollisionPolygon3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_crs8l")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]
