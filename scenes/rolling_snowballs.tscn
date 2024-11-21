@@ -87,3 +87,4 @@ mesh = SubResource("SphereMesh_eq82t")
 [node name="SnowballManager" type="Node3D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("3_70a1a")
+init_large = false

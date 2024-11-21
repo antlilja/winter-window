@@ -1,6 +1,8 @@
 extends Node3D
 var snowball_scene = preload("res://scenes/snowball.tscn")
 
+@export var init_large = true
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
@@ -15,4 +17,5 @@ func create_snowball(position : Vector3):
 	snowball.position = position
 	
 	add_child(snowball)
-	snowball.init_large()
+	if init_large:
+		snowball.init_large()
