@@ -2,6 +2,7 @@ extends XROrigin3D
 
 var snowball_scene = preload("res://scenes/snowball.tscn")
 var current_snowball: RigidBody3D = null
+@onready var right_hand: XRController3D = $RightHand
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -17,7 +18,9 @@ func _process(delta: float) -> void:
 func create_snowball_on_hand(hand_node: XRNode3D) -> void:
 	var snowball: RigidBody3D = snowball_scene.instantiate()
 	current_snowball = snowball
-	hand_node.add_child(snowball)
+	current_snowball
+	hand_node.add_child(current_snowball)
+	current_snowball.freeze = true
 	pass
 	
 func _on_right_hand_button_pressed(name: String) -> void:
@@ -36,5 +39,8 @@ func _on_right_hand_button_released(name: String) -> void:
 	match name:
 			"trigger_click": 
 				if (current_snowball != null):
+					current_snowball.freeze = false
 					current_snowball.reparent($".")
+					current_snowball.linear_velocity = right_hand.get_velocity()
+					current_snowball = null
 	pass # Replace with function body.

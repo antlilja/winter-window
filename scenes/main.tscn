@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://d1l2bdq6b5d43"]
 
 [ext_resource type="Script" path="res://scenes/xr_origin_3d.gd" id="1_tti6x"]
-[ext_resource type="Script" path="res://scripts/right_hand.gd" id="2_fsave"]
+[ext_resource type="Script" path="res://scripts/hand.gd" id="2_fsave"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_g11yq"]
 size = Vector3(0.05, 0.05, 0.2)
