@@ -7,8 +7,6 @@ extends RigidBody3D
 @export var grounded = true
 @export var scale_factor = 1.001
 
-# testing variables
-var push_force = 0.1
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -16,16 +14,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	# test inputs to move snowball
-	if Input.is_action_pressed("move_right"):
-		apply_impulse(Vector3(push_force,0,0))
-	if Input.is_action_pressed("move_left"):
-		apply_impulse(Vector3(-push_force,0,0))
-	if Input.is_action_pressed("move_back"):
-		apply_impulse(Vector3(0,0,push_force))
-	if Input.is_action_pressed("move_forward"):
-		apply_impulse(Vector3(0,0,-push_force))
-		
+	
 	# grow snowball if moving on ground
 	if grounded and linear_velocity.length() > 0.5:
 		collision.scale = collision.scale*scale_factor

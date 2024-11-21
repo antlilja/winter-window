@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://cyypkhn50utq2"]
+[gd_scene load_steps=13 format=3 uid="uid://cyypkhn50utq2"]
 
 [ext_resource type="Script" path="res://scripts/snowball.gd" id="1_ddbh8"]
+[ext_resource type="Script" path="res://scripts/controller_substitute.gd" id="2_lkk85"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_j4y6r"]
-friction = 0.17
+friction = 0.08
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_04btx"]
 radius = 0.4
@@ -45,7 +46,7 @@ current = true
 transform = Transform3D(1, 0, 0, 0, 0.0437588, 0.999042, 0, -0.999042, 0.0437588, 0, 1.82454, 0)
 
 [node name="Snowball" type="RigidBody3D" parent="." groups=["snowball"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0145998, -0.803613, -1.29301)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0145998, 1.50225, -1.29301)
 physics_material_override = SubResource("PhysicsMaterial_j4y6r")
 script = ExtResource("1_ddbh8")
 
@@ -91,15 +92,15 @@ shape = SubResource("BoxShape3D_2kc6w")
 transform = Transform3D(0.622938, 0, 0.782271, 0, 1, 0, -0.782271, 0, 0.622938, -5.76153, -0.602206, 0.431613)
 shape = SubResource("BoxShape3D_2kc6w")
 
-[node name="Colliding Snowball" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0751871, -0.66344, 0.746284)
+[node name="ControllerSubstitute" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1002, 0.750113, -2.18433)
+gravity_scale = 0.0
+script = ExtResource("2_lkk85")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Colliding Snowball"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.78805, -0.416831, -2.06584)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ControllerSubstitute"]
 shape = SubResource("SphereShape3D_3ul72")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Colliding Snowball"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.79408, -0.386882, -2.0585)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ControllerSubstitute"]
 mesh = SubResource("SphereMesh_eq82t")
 
 [connection signal="body_entered" from="Snowball" to="Snowball" method="_on_body_entered"]
