@@ -1,7 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://cyypkhn50utq2"]
+[gd_scene load_steps=10 format=3 uid="uid://cyypkhn50utq2"]
 
 [ext_resource type="Script" path="res://scripts/controller_substitute.gd" id="2_lkk85"]
-[ext_resource type="PackedScene" uid="uid://c34bbjjb2j0d5" path="res://scenes/snowball.tscn" id="2_piheu"]
 [ext_resource type="Script" path="res://scripts/snowball_manager.gd" id="3_70a1a"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_i6bli"]
@@ -84,12 +83,6 @@ shape = SubResource("SphereShape3D_3ul72")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="ControllerSubstitute"]
 mesh = SubResource("SphereMesh_eq82t")
-
-[node name="Snowball" parent="." instance=ExtResource("2_piheu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.325657, -0.962869)
-
-[node name="Snowball2" parent="." instance=ExtResource("2_piheu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.16239, -1.64936)
 
 [node name="SnowballManager" type="Node3D" parent="."]
 unique_name_in_owner = true

@@ -13,5 +13,6 @@ func create_snowball(position : Vector3):
 	var snowball: RigidBody3D = snowball_scene.instantiate()
 	snowball.linear_velocity = Vector3.ZERO
 	snowball.position = position
-
+	
 	add_child(snowball)
+	snowball.init_large()

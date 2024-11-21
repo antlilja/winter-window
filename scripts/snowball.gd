@@ -7,19 +7,23 @@ extends RigidBody3D
 
 # roll variables
 @export var scale_factor = 1.001
+@export var max_size = 1
+@export var speed_threshold = 0.5 # avoid snowball rapidly growing because of a slight rolling
 
 # stack variables
 @export var attatched_snowballs = 0
+
 	
 func _physics_process(_delta : float):
+	var current_radius = mesh.mesh.radius * mesh.scale.x
 	# grow snowball if moving on ground
-	if is_grounded and linear_velocity.length() > 0.5:
+	if is_grounded and linear_velocity.length() > speed_threshold and current_radius < max_size:
 		collisionShape.scale = collisionShape.scale*scale_factor
 		mesh.scale = mesh.scale*scale_factor
-
+		
 func init_large():
 	collisionShape.scale = collisionShape.scale*10
-	mesh.scale = mesh.scale*10	
+	mesh.scale = mesh.scale*10
 	
 func lock_position():
 	linear_velocity = Vector3.ZERO
