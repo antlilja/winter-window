@@ -1,9 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://b32ck1qq3b6v"]
+[gd_scene load_steps=9 format=3 uid="uid://b32ck1qq3b6v"]
 
 [ext_resource type="Script" path="res://scripts/snowball.gd" id="2_a1nou"]
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_ork5r"]
-radius = 0.05
 
 [sub_resource type="Gradient" id="Gradient_6dndy"]
 offsets = PackedFloat32Array(0.0166667, 1)
@@ -23,15 +20,32 @@ material = SubResource("StandardMaterial3D_g5w6v")
 radius = 0.05
 height = 0.1
 
-[node name="Snowball" type="RigidBody3D"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_ork5r"]
+radius = 0.05
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_p4ovh"]
+points = PackedVector3Array(-0.960334, -0.50996, -0.0297929, 0.509894, 0.960122, 0.0299833, 0.509962, 0.96025, -0.0297872, 0.960579, -0.509902, -0.0296125, 0.0298891, -0.509894, 0.960311, -0.0298872, 0.510062, -0.96005, -0.960022, 0.509994, 0.0299833, 0.0298912, -0.960178, -0.50993, 0.0298832, 0.509994, 0.960122, 0.960143, 0.029799, 0.510058, 0.960271, 0.029803, -0.509926, -0.51003, -0.0297912, -0.960178, -0.509963, -0.0297872, 0.960252, -0.0298853, -0.95999, 0.51003, -0.509962, 0.96025, -0.0297872, 0.51003, -0.0297912, -0.960178, -0.96015, 0.0299872, -0.509862, -0.0298832, 0.960122, 0.509994, 0.509962, -0.96005, 0.0299872, -0.51003, -0.960178, -0.0297912, -0.960154, -0.0297873, 0.510064, -0.0298912, -0.50993, -0.960178, 0.509962, -0.0297872, 0.96025, 0.0298872, 0.96025, -0.509862, 0.960271, 0.510126, -0.029603, -0.509894, 0.0299833, 0.960122, -0.960209, -0.509894, 0.0299891, 0.0298872, 0.510062, -0.96005, 0.960446, -0.509831, 0.0298084, 0.510033, -0.960184, -0.0297913, -0.96015, 0.510062, -0.0297872, -0.0298888, -0.509889, 0.9603)
+
+[node name="Snowball" type="RigidBody3D" groups=["snowball"]]
 collision_layer = 4
 collision_mask = 196615
 freeze_mode = 1
+contact_monitor = true
+max_contacts_reported = 5
 script = ExtResource("2_a1nou")
 ranged_grab_method = 0
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("SphereShape3D_ork5r")
-
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_bgwuy")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_ork5r")
+disabled = true
+
+[node name="CollisionPolygon3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_p4ovh")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
+[connection signal="grabbed" from="." to="." method="_on_grabbed"]

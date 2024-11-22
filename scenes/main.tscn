@@ -26,21 +26,21 @@ current = true
 [node name="VRCommonShaderCache" parent="XROrigin3D/XRCamera3D" instance=ExtResource("2_35npe")]
 
 [node name="RightHand" type="XRController3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.131405, 0.695897, 0)
 tracker = &"right_hand"
 script = ExtResource("2_fsave")
 
 [node name="RightPhysicsHand" parent="XROrigin3D/RightHand" groups=["controller"] instance=ExtResource("4_k3nmj")]
-collision_layer = 131073
 
 [node name="Grip" type="Node3D" parent="XROrigin3D/RightHand"]
 script = ExtResource("3_vbg8b")
 grab_distance = 0.1
 
 [node name="LeftHand" type="XRController3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.683742, 0)
 tracker = &"left_hand"
 
 [node name="LeftPhysicsHand" parent="XROrigin3D/LeftHand" groups=["controller"] instance=ExtResource("5_ifv0l")]
-collision_layer = 131073
 
 [node name="Ground" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.246, 0, -0.133)

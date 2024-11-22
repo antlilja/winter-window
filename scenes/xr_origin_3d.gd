@@ -1,6 +1,6 @@
 extends XROrigin3D
 
-var snowball_scene = preload("res://scenes/snowball.tscn")
+var snowball_scene = preload("res://scenes/snowball_pickable.tscn") #preload("res://scenes/snowball.tscn")
 var current_snowball: RigidBody3D = null
 @onready var right_hand: XRController3D = $RightHand
 
@@ -25,7 +25,7 @@ func create_snowball_on_hand(hand_node: XRNode3D) -> void:
 	
 func _on_right_hand_button_pressed(name: String) -> void:
 	match name:
-			pass#"trigger_click": create_snowball_on_hand($RightHand)
+			"trigger_click": create_snowball_on_hand($RightHand)
 	pass # Replace with function body.
 
 

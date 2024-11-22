@@ -2,7 +2,7 @@ extends XRToolsPickable
 
 @onready var mesh = $MeshInstance3D
 @onready var collisionShape = $CollisionShape3D
-#@onready var polygonShape = $CollisionPolygon3D
+@onready var polygonShape = $CollisionPolygon3D
 
 @export var is_grounded = false
 
@@ -21,12 +21,12 @@ func _physics_process(_delta : float):
 	if is_grounded and linear_velocity.length() > speed_threshold and current_radius < max_size:
 		mesh.scale = mesh.scale*scale_factor
 		collisionShape.scale = collisionShape.scale*scale_factor
-		#polygonShape.scale = polygonShape.scale*scale_factor
+		polygonShape.scale = polygonShape.scale*scale_factor
 		
 func init_large():
 	collisionShape.scale = collisionShape.scale*10
 	mesh.scale = mesh.scale*10
-	#polygonShape.scale = polygonShape.scale*10
+	polygonShape.scale = polygonShape.scale*10
 	
 func lock_position():
 	linear_velocity = Vector3.ZERO
@@ -82,3 +82,6 @@ func _on_body_exited(body) -> void:
 		attatched_snowballs -= 1
 		if attatched_snowballs < 1:
 			unlock_position()
+
+func _on_grabbed(pickable: Variant, by: Variant) -> void:
+	unlock_position()
