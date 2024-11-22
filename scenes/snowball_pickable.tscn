@@ -1,0 +1,37 @@
+[gd_scene load_steps=8 format=3 uid="uid://b32ck1qq3b6v"]
+
+[ext_resource type="Script" path="res://scripts/snowball.gd" id="2_a1nou"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ork5r"]
+radius = 0.05
+
+[sub_resource type="Gradient" id="Gradient_6dndy"]
+offsets = PackedFloat32Array(0.0166667, 1)
+colors = PackedColorArray(0.684319, 0.867921, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_3c3ks"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_wgp30"]
+color_ramp = SubResource("Gradient_6dndy")
+noise = SubResource("FastNoiseLite_3c3ks")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g5w6v"]
+albedo_texture = SubResource("NoiseTexture2D_wgp30")
+
+[sub_resource type="SphereMesh" id="SphereMesh_bgwuy"]
+material = SubResource("StandardMaterial3D_g5w6v")
+radius = 0.05
+height = 0.1
+
+[node name="Snowball" type="RigidBody3D"]
+collision_layer = 4
+collision_mask = 196615
+freeze_mode = 1
+script = ExtResource("2_a1nou")
+ranged_grab_method = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_ork5r")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_bgwuy")

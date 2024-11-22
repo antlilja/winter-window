@@ -25,7 +25,7 @@ func create_snowball_on_hand(hand_node: XRNode3D) -> void:
 	
 func _on_right_hand_button_pressed(name: String) -> void:
 	match name:
-			"trigger_click": create_snowball_on_hand($RightHand)
+			pass#"trigger_click": create_snowball_on_hand($RightHand)
 	pass # Replace with function body.
 
 

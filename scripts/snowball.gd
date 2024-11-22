@@ -1,8 +1,8 @@
-extends RigidBody3D
+extends XRToolsPickable
 
 @onready var mesh = $MeshInstance3D
 @onready var collisionShape = $CollisionShape3D
-@onready var polygonShape = $CollisionPolygon3D
+#@onready var polygonShape = $CollisionPolygon3D
 
 @export var is_grounded = false
 
@@ -14,21 +14,19 @@ extends RigidBody3D
 # stack variables
 @export var attatched_snowballs = 0
 
-func _ready() -> void:
-	pass #freeze_mode = FREEZE_MODE_KINEMATIC
-	
+
 func _physics_process(_delta : float):
 	var current_radius = mesh.mesh.radius * mesh.scale.x
 	# grow snowball if moving on ground
 	if is_grounded and linear_velocity.length() > speed_threshold and current_radius < max_size:
 		mesh.scale = mesh.scale*scale_factor
 		collisionShape.scale = collisionShape.scale*scale_factor
-		polygonShape.scale = polygonShape.scale*scale_factor
+		#polygonShape.scale = polygonShape.scale*scale_factor
 		
 func init_large():
 	collisionShape.scale = collisionShape.scale*10
 	mesh.scale = mesh.scale*10
-	polygonShape.scale = polygonShape.scale*10
+	#polygonShape.scale = polygonShape.scale*10
 	
 func lock_position():
 	linear_velocity = Vector3.ZERO
