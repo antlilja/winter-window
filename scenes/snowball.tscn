@@ -8,6 +8,8 @@ radius = 0.05
 height = 0.1
 
 [node name="Snowball" type="RigidBody3D"]
+collision_layer = 131073
+collision_mask = 131073
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_bpj7e")

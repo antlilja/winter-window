@@ -1,19 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://d1l2bdq6b5d43"]
+[gd_scene load_steps=7 format=3 uid="uid://d1l2bdq6b5d43"]
 
 [ext_resource type="Script" path="res://scenes/xr_origin_3d.gd" id="1_tti6x"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/misc/vr_common_shader_cache.tscn" id="2_35npe"]
 [ext_resource type="Script" path="res://scripts/hand.gd" id="2_fsave"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_g11yq"]
-size = Vector3(0.05, 0.05, 0.2)
-
-[sub_resource type="BoxMesh" id="BoxMesh_t2yqr"]
-size = Vector3(0.05, 0.05, 0.2)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_58503"]
-size = Vector3(0.05, 0.05, 0.2)
-
-[sub_resource type="BoxMesh" id="BoxMesh_eosli"]
-size = Vector3(0.05, 0.05, 0.2)
+[ext_resource type="PackedScene" uid="uid://bkdeegb8w3oah" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_physics_fullglove_low.tscn" id="4_k3nmj"]
+[ext_resource type="PackedScene" uid="uid://b8hc2ex21u8xj" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_physics_fullglove_low.tscn" id="5_ifv0l"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ortcs"]
 size = Vector3(5.34534, 1, 5.68835)
@@ -30,32 +21,18 @@ script = ExtResource("1_tti6x")
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
 current = true
 
+[node name="VRCommonShaderCache" parent="XROrigin3D/XRCamera3D" instance=ExtResource("2_35npe")]
+
 [node name="RightHand" type="XRController3D" parent="XROrigin3D"]
 tracker = &"right_hand"
 script = ExtResource("2_fsave")
 
-[node name="ControllerRep" type="StaticBody3D" parent="XROrigin3D/RightHand"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/RightHand/ControllerRep"]
-shape = SubResource("BoxShape3D_g11yq")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/RightHand/ControllerRep"]
-mesh = SubResource("BoxMesh_t2yqr")
+[node name="RightPhysicsHand" parent="XROrigin3D/RightHand" instance=ExtResource("4_k3nmj")]
 
 [node name="LeftHand" type="XRController3D" parent="XROrigin3D"]
 tracker = &"left_hand"
 
-[node name="CSGBox3D" type="CSGBox3D" parent="XROrigin3D/LeftHand"]
-transform = Transform3D(0.140753, 0, 0, 0, 0.125789, 0, 0, 0, 0.337367, 0, 0.566526, 0.0855863)
-size = Vector3(0.5, 0.5, 0.5)
-
-[node name="StaticBody3D" type="StaticBody3D" parent="XROrigin3D/LeftHand"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/LeftHand/StaticBody3D"]
-shape = SubResource("BoxShape3D_58503")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/LeftHand/StaticBody3D"]
-mesh = SubResource("BoxMesh_eosli")
+[node name="LeftPhysicsHand" parent="XROrigin3D/LeftHand" instance=ExtResource("5_ifv0l")]
 
 [node name="Ground" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.246, 0, -0.133)
