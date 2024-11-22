@@ -14,6 +14,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
+	# Calculate current velocity and add to rolling buffer
 	var current_position = self.global_position
 	var instant_velocity = (current_position - previous_position)/delta
 	velocity_buffer[vel_buffer_index] = instant_velocity
@@ -22,6 +23,7 @@ func _physics_process(delta: float) -> void:
 	previous_position = current_position
 
 func get_velocity() -> Vector3:
+	# Calculate rolling average velocity
 	var sum = Vector3.ZERO
 	for v in velocity_buffer:
 		sum += v
