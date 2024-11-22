@@ -27,18 +27,20 @@ current = true
 tracker = &"right_hand"
 script = ExtResource("2_fsave")
 
-[node name="RightPhysicsHand" parent="XROrigin3D/RightHand" instance=ExtResource("4_k3nmj")]
+[node name="RightPhysicsHand" parent="XROrigin3D/RightHand" groups=["controller"] instance=ExtResource("4_k3nmj")]
+collision_layer = 131073
 
 [node name="LeftHand" type="XRController3D" parent="XROrigin3D"]
 tracker = &"left_hand"
 
-[node name="LeftPhysicsHand" parent="XROrigin3D/LeftHand" instance=ExtResource("5_ifv0l")]
+[node name="LeftPhysicsHand" parent="XROrigin3D/LeftHand" groups=["controller"] instance=ExtResource("5_ifv0l")]
+collision_layer = 131073
 
 [node name="Ground" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.246, 0, -0.133)
 size = Vector3(5.35693, 1, 5.66064)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Ground"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Ground" groups=["ground"]]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00347897, 0, -0.0230103)

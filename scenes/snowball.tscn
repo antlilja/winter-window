@@ -34,31 +34,29 @@ points = PackedVector3Array(-0.706099, -1.2353, -0.0585959, 0.0586067, 1.88279, 
 [node name="Snowball" type="RigidBody3D" groups=["snowball"]]
 collision_layer = 131073
 collision_mask = 131073
-mass = 2.0
 physics_material_override = SubResource("PhysicsMaterial_mct0s")
 center_of_mass_mode = 1
-center_of_mass = Vector3(0.05, 0, 0.01)
+inertia = Vector3(10, 10, 10)
 contact_monitor = true
 max_contacts_reported = 5
-
 script = ExtResource("1_xwkjo")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_mrf5k")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-visible = false
 shape = SubResource("SphereShape3D_bpj7e")
 disabled = true
 
-[node name="CollisionPolygon3D_D20" type="CollisionShape3D" parent="."]
+[node name="CollisionPolygon3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
-visible = false
 shape = SubResource("ConvexPolygonShape3D_oocuv")
 
-[node name="CollisionPolygon3D" type="CollisionShape3D" parent="."]
+[node name="CollisionPolygon3D_octagon" type="CollisionShape3D" parent="."]
 transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0, 0, 0)
+visible = false
 shape = SubResource("ConvexPolygonShape3D_crs8l")
+disabled = true
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]

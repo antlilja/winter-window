@@ -7,13 +7,15 @@ extends RigidBody3D
 @export var is_grounded = false
 
 # roll variables
-@export var scale_factor = 1.001
+@export var scale_factor = 1.01
 @export var max_size = 1
 @export var speed_threshold = 0.5 # avoid snowball rapidly growing because of a slight rolling
 
 # stack variables
 @export var attatched_snowballs = 0
 
+func _ready() -> void:
+	pass #freeze_mode = FREEZE_MODE_KINEMATIC
 	
 func _physics_process(_delta : float):
 	var current_radius = mesh.mesh.radius * mesh.scale.x
@@ -30,18 +32,30 @@ func init_large():
 	
 func lock_position():
 	linear_velocity = Vector3.ZERO
+	angular_velocity = Vector3.ZERO
+	#self.freeze = true
 	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_LINEAR_X, true)
 	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_LINEAR_Y, true)
 	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_LINEAR_Z, true)
 	
+	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_ANGULAR_X, true)
+	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_ANGULAR_Y, true)
+	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_ANGULAR_Z, true)
+	
 func unlock_position():
+	#self.freeze = false
 	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_LINEAR_X, false)
 	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_LINEAR_Y, false)
 	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_LINEAR_Z, false)
+	
+	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_ANGULAR_X, false)
+	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_ANGULAR_Y, false)
+	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_ANGULAR_Z, false)
 
 func set_grounded(grounded : bool):
 	is_grounded = grounded
 	if (grounded):
+		
 		add_to_group("grounded")
 	else:
 		remove_from_group("grounded")
@@ -51,7 +65,6 @@ func _on_body_entered(body):
 		set_grounded(true)
 		
 	if body.is_in_group("snowball"):
-		
 		# don't attatch two grounded snowballs
 		if is_grounded and body.is_in_group("grounded"):
 			return
@@ -60,6 +73,7 @@ func _on_body_entered(body):
 		lock_position()
 		
 	if body.is_in_group("controller") and not is_grounded: # could be more restrictive but would risk deadlock
+		print("Collision with controller")
 		unlock_position()
 
 func _on_body_exited(body) -> void:
