@@ -12,6 +12,7 @@ metadata/_edit_group_ = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.251035, 4.49213, -0.570162)
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.974785, 0.223148, 0, -0.223148, 0.974785, 0, 1.65009, 9.41602)
+transform = Transform3D(0.577601, 0.18216, -0.795735, 0, 0.974785, 0.223148, 0.816319, -0.128891, 0.563037, -7.34865, 1.65009, -1.44906)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+light_energy = 7.475

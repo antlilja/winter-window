@@ -10,7 +10,7 @@ void vertex() {
 
 	float rawMean = (color.x + color.y + color.z) / 3.0;
 	float clamped = clamp(rawMean, 0.0, 1.0);
-
+	
 
 
 	VERTEX.y = clamped;
