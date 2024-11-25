@@ -71,6 +71,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.803717, 1.0514)
 current = true
 
 [node name="Ground" type="CSGBox3D" parent="."]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.246, 0, -0.133)
 size = Vector3(5.35693, 1, 5.66064)
 
