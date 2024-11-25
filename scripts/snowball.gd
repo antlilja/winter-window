@@ -14,14 +14,22 @@ extends XRToolsPickable
 # stack variables
 @export var attatched_snowballs = 0
 
+# pickup
+var max_disable_collision_time = 0.1
+var disable_collision_time = 0
 
-func _physics_process(_delta : float):
+func _physics_process(delta : float):
 	var current_radius = mesh.mesh.radius * mesh.scale.x
 	# grow snowball if moving on ground
 	if is_grounded and linear_velocity.length() > speed_threshold and current_radius < max_size:
 		mesh.scale = mesh.scale*scale_factor
 		collisionShape.scale = collisionShape.scale*scale_factor
 		polygonShape.scale = polygonShape.scale*scale_factor
+		
+	if disable_collision_time > 0:
+		disable_collision_time -= delta
+		if disable_collision_time < 0:
+			set_collision_mask_value(18, true)
 		
 func init_large():
 	collisionShape.scale = collisionShape.scale*10
@@ -31,7 +39,6 @@ func init_large():
 func lock_position():
 	linear_velocity = Vector3.ZERO
 	angular_velocity = Vector3.ZERO
-	#self.freeze = true
 	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_LINEAR_X, true)
 	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_LINEAR_Y, true)
 	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_LINEAR_Z, true)
@@ -41,7 +48,6 @@ func lock_position():
 	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_ANGULAR_Z, true)
 	
 func unlock_position():
-	#self.freeze = false
 	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_LINEAR_X, false)
 	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_LINEAR_Y, false)
 	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_LINEAR_Z, false)
@@ -85,3 +91,7 @@ func _on_body_exited(body) -> void:
 
 func _on_grabbed(pickable: Variant, by: Variant) -> void:
 	unlock_position()
+
+func _on_dropped(pickable: Variant) -> void:
+	disable_collision_time = max_disable_collision_time
+	set_collision_mask_value(18, false)

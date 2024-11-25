@@ -49,4 +49,5 @@ shape = SubResource("ConvexPolygonShape3D_p4ovh")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]
+[connection signal="dropped" from="." to="." method="_on_dropped"]
 [connection signal="grabbed" from="." to="." method="_on_grabbed"]
