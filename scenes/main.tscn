@@ -3,8 +3,8 @@
 [ext_resource type="Script" path="res://scenes/xr_origin_3d.gd" id="1_tti6x"]
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/misc/vr_common_shader_cache.tscn" id="2_35npe"]
 [ext_resource type="Script" path="res://scripts/hand.gd" id="2_fsave"]
-[ext_resource type="Script" path="res://addons/godot-xr-tools/functions/function_pickup.gd" id="3_vbg8b"]
 [ext_resource type="PackedScene" uid="uid://bkdeegb8w3oah" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_physics_fullglove_low.tscn" id="4_k3nmj"]
+[ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="4_smsx4"]
 [ext_resource type="PackedScene" uid="uid://b8hc2ex21u8xj" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_physics_fullglove_low.tscn" id="5_ifv0l"]
 [ext_resource type="Script" path="res://scripts/camera_tracker.gd" id="6_qqexs"]
 [ext_resource type="PackedScene" uid="uid://b32ck1qq3b6v" path="res://scenes/snowball_pickable.tscn" id="8_hq5gw"]
@@ -39,7 +39,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.131405, 0.695897, 0)
 tracker = &"right_hand"
 script = ExtResource("2_fsave")
 
-[node name="RightPhysicsHand" parent="XROrigin3D/RightHand" groups=["controller"] instance=ExtResource("4_k3nmj")]
+[node name="FunctionPickup" parent="SubViewport/XROrigin3D/RightHand" instance=ExtResource("4_smsx4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0399112, 0, 0.153999)
+ranged_enable = false
+ranged_collision_mask = 0
 
 [node name="RightPhysicsHand" parent="SubViewport/XROrigin3D/RightHand" groups=["controller"] instance=ExtResource("4_k3nmj")]
 
@@ -47,7 +50,10 @@ script = ExtResource("2_fsave")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.683742, 0)
 tracker = &"left_hand"
 
-[node name="LeftPhysicsHand" parent="XROrigin3D/LeftHand" groups=["controller"] instance=ExtResource("5_ifv0l")]
+[node name="FunctionPickup" parent="SubViewport/XROrigin3D/LeftHand" instance=ExtResource("4_smsx4")]
+ranged_enable = false
+
+[node name="LeftPhysicsHand" parent="SubViewport/XROrigin3D/LeftHand" groups=["controller"] instance=ExtResource("5_ifv0l")]
 
 [node name="CameraTracker" type="XRController3D" parent="SubViewport/XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.803717, 1.0514)
@@ -77,6 +83,6 @@ shape = SubResource("BoxShape3D_ortcs")
 [node name="PickableObject2" parent="." instance=ExtResource("8_hq5gw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.0913103)
 
-[connection signal="button_pressed" from="XROrigin3D/RightHand" to="XROrigin3D" method="_on_right_hand_button_pressed"]
-[connection signal="button_released" from="XROrigin3D/RightHand" to="XROrigin3D" method="_on_right_hand_button_released"]
-[connection signal="input_float_changed" from="XROrigin3D/RightHand" to="XROrigin3D" method="_on_right_hand_input_float_changed"]
+[connection signal="button_pressed" from="SubViewport/XROrigin3D/RightHand" to="SubViewport/XROrigin3D" method="_on_right_hand_button_pressed"]
+[connection signal="button_released" from="SubViewport/XROrigin3D/RightHand" to="SubViewport/XROrigin3D" method="_on_right_hand_button_released"]
+[connection signal="input_float_changed" from="SubViewport/XROrigin3D/RightHand" to="SubViewport/XROrigin3D" method="_on_right_hand_input_float_changed"]
