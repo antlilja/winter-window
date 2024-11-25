@@ -33,7 +33,8 @@ freeze_mode = 1
 contact_monitor = true
 max_contacts_reported = 5
 script = ExtResource("2_a1nou")
-ranged_grab_method = 0
+picked_up_layer = 327684
+release_mode = 0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_bgwuy")

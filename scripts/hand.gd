@@ -11,7 +11,6 @@ func _ready() -> void:
 	velocity_buffer.fill(Vector3.ZERO)
 	pass
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
 	# Calculate current velocity and add to rolling buffer

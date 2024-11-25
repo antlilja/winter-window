@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://d1l2bdq6b5d43"]
+[gd_scene load_steps=11 format=3 uid="uid://d1l2bdq6b5d43"]
 
 [ext_resource type="Script" path="res://scenes/xr_origin_3d.gd" id="1_tti6x"]
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/misc/vr_common_shader_cache.tscn" id="2_35npe"]
@@ -6,7 +6,11 @@
 [ext_resource type="Script" path="res://addons/godot-xr-tools/functions/function_pickup.gd" id="3_vbg8b"]
 [ext_resource type="PackedScene" uid="uid://bkdeegb8w3oah" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_physics_fullglove_low.tscn" id="4_k3nmj"]
 [ext_resource type="PackedScene" uid="uid://b8hc2ex21u8xj" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_physics_fullglove_low.tscn" id="5_ifv0l"]
+[ext_resource type="Script" path="res://scripts/camera_tracker.gd" id="6_qqexs"]
 [ext_resource type="PackedScene" uid="uid://b32ck1qq3b6v" path="res://scenes/snowball_pickable.tscn" id="8_hq5gw"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_5gofk"]
+size = Vector3(0.1, 0.1, 0.1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ortcs"]
 size = Vector3(5.34534, 1, 5.68835)
@@ -16,31 +20,49 @@ size = Vector3(5.34534, 1, 5.68835)
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
 
-[node name="XROrigin3D" type="XROrigin3D" parent="."]
+[node name="SubViewport" type="SubViewport" parent="."]
+use_xr = true
+size = Vector2i(0, 0)
+render_target_update_mode = 4
+
+[node name="XROrigin3D" type="XROrigin3D" parent="SubViewport"]
 current = true
 script = ExtResource("1_tti6x")
 
-[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+[node name="XRCamera3D" type="XRCamera3D" parent="SubViewport/XROrigin3D"]
 current = true
 
-[node name="VRCommonShaderCache" parent="XROrigin3D/XRCamera3D" instance=ExtResource("2_35npe")]
+[node name="VRCommonShaderCache" parent="SubViewport/XROrigin3D/XRCamera3D" instance=ExtResource("2_35npe")]
 
-[node name="RightHand" type="XRController3D" parent="XROrigin3D"]
+[node name="RightHand" type="XRController3D" parent="SubViewport/XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.131405, 0.695897, 0)
 tracker = &"right_hand"
 script = ExtResource("2_fsave")
 
 [node name="RightPhysicsHand" parent="XROrigin3D/RightHand" groups=["controller"] instance=ExtResource("4_k3nmj")]
 
-[node name="Grip" type="Node3D" parent="XROrigin3D/RightHand"]
-script = ExtResource("3_vbg8b")
-grab_distance = 0.1
+[node name="RightPhysicsHand" parent="SubViewport/XROrigin3D/RightHand" groups=["controller"] instance=ExtResource("4_k3nmj")]
 
-[node name="LeftHand" type="XRController3D" parent="XROrigin3D"]
+[node name="LeftHand" type="XRController3D" parent="SubViewport/XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.683742, 0)
 tracker = &"left_hand"
 
 [node name="LeftPhysicsHand" parent="XROrigin3D/LeftHand" groups=["controller"] instance=ExtResource("5_ifv0l")]
+
+[node name="CameraTracker" type="XRController3D" parent="SubViewport/XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.803717, 1.0514)
+tracker = &"/user/vive_tracker_htcx/role/camera"
+script = ExtResource("6_qqexs")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewport/XROrigin3D/CameraTracker"]
+mesh = SubResource("BoxMesh_5gofk")
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="SubViewport/XROrigin3D/CameraTracker"]
+remote_path = NodePath("../../../../Camera3D")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.803717, 1.0514)
+current = true
 
 [node name="Ground" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.246, 0, -0.133)
