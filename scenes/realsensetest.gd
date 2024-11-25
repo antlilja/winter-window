@@ -41,6 +41,9 @@ func _notification(what: int) -> void:
 		rd.free_rid(buffer_in)
 
 func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("ui_accept"):
+		material.set_shader_parameter("show_depth", !material.get_shader_parameter("show_depth"))
+
 	if RealSense.poll_frame():
 		rd.buffer_update(buffer_in, 0, 1280 * 720 * 2, RealSense.get_depth_image())
 		
