@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://d1l2bdq6b5d43"]
+[gd_scene load_steps=13 format=3 uid="uid://d1l2bdq6b5d43"]
 
 [ext_resource type="Script" path="res://scenes/xr_origin_3d.gd" id="1_tti6x"]
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/misc/vr_common_shader_cache.tscn" id="2_35npe"]
@@ -45,6 +45,8 @@ script = ExtResource("2_fsave")
 
 [node name="FunctionPickup" parent="SubViewport/XROrigin3D/RightHand" instance=ExtResource("4_smsx4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0399112, 0, 0.153999)
+pickup_axis_action = "trigger"
+action_button_action = "grip"
 ranged_enable = false
 ranged_collision_mask = 0
 
@@ -55,6 +57,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.683742, 0)
 tracker = &"left_hand"
 
 [node name="FunctionPickup" parent="SubViewport/XROrigin3D/LeftHand" instance=ExtResource("4_smsx4")]
+pickup_axis_action = "trigger"
+action_button_action = "grip"
 ranged_enable = false
 
 [node name="LeftPhysicsHand" parent="SubViewport/XROrigin3D/LeftHand" groups=["controller"] instance=ExtResource("5_ifv0l")]
