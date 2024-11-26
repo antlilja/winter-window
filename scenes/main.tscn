@@ -7,13 +7,17 @@
 [ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="4_smsx4"]
 [ext_resource type="PackedScene" uid="uid://b8hc2ex21u8xj" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_physics_fullglove_low.tscn" id="5_ifv0l"]
 [ext_resource type="Script" path="res://scripts/camera_tracker.gd" id="6_qqexs"]
+[ext_resource type="PackedScene" uid="uid://c8l60rnugru40" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="8_added"]
 [ext_resource type="PackedScene" uid="uid://b32ck1qq3b6v" path="res://scenes/snowball_pickable.tscn" id="8_hq5gw"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_5gofk"]
 size = Vector3(0.1, 0.1, 0.1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ortcs"]
-size = Vector3(5.34534, 1, 5.68835)
+size = Vector3(6, 1, 6)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_0d882"]
+size = Vector2(6, 6)
 
 [node name="Origin" type="Node3D"]
 
@@ -70,20 +74,23 @@ remote_path = NodePath("../../../../Camera3D")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.803717, 1.0514)
 current = true
 
-[node name="Ground" type="CSGBox3D" parent="."]
+[node name="Ground" parent="." groups=["ground"] instance=ExtResource("8_added")]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.246, 0, -0.133)
-size = Vector3(5.35693, 1, 5.66064)
+freeze = true
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Ground" groups=["ground"]]
+[node name="CollisionShape3D" parent="Ground" index="0"]
+disabled = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00347897, 0, -0.0230103)
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.249479, 0, -0.15601)
 shape = SubResource("BoxShape3D_ortcs")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.246, 0.5, -0.133)
+mesh = SubResource("PlaneMesh_0d882")
+skeleton = NodePath("")
 
 [node name="PickableObject2" parent="." instance=ExtResource("8_hq5gw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.0913103)
 
-[connection signal="button_pressed" from="SubViewport/XROrigin3D/RightHand" to="SubViewport/XROrigin3D" method="_on_right_hand_button_pressed"]
-[connection signal="button_released" from="SubViewport/XROrigin3D/RightHand" to="SubViewport/XROrigin3D" method="_on_right_hand_button_released"]
-[connection signal="input_float_changed" from="SubViewport/XROrigin3D/RightHand" to="SubViewport/XROrigin3D" method="_on_right_hand_input_float_changed"]
+[editable path="Ground"]
