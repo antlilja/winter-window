@@ -39,8 +39,8 @@ func _physics_process(delta : float):
 		linear_velocity += -linear_velocity*0.1
 		angular_velocity += -angular_velocity*0.5
 		
-	if global_position.y < 0.5: # hard coded ground level
-		global_position.y = 0 + 0.5 + current_radius # ground position.y, ground size.y
+	if global_position.y < -0.1: # hard coded ground level
+		global_position.y = current_radius 
 		
 	if disable_collision_time > 0:
 		disable_collision_time -= delta

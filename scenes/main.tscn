@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://d1l2bdq6b5d43"]
+[gd_scene load_steps=12 format=3 uid="uid://d1l2bdq6b5d43"]
 
 [ext_resource type="Script" path="res://scenes/xr_origin_3d.gd" id="1_tti6x"]
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/misc/vr_common_shader_cache.tscn" id="2_35npe"]
@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://b8hc2ex21u8xj" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_physics_fullglove_low.tscn" id="5_ifv0l"]
 [ext_resource type="Script" path="res://scripts/camera_tracker.gd" id="6_qqexs"]
 [ext_resource type="PackedScene" uid="uid://c8l60rnugru40" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="8_added"]
-[ext_resource type="PackedScene" uid="uid://b32ck1qq3b6v" path="res://scenes/snowball_pickable.tscn" id="8_hq5gw"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_5gofk"]
 size = Vector3(0.1, 0.1, 0.1)
@@ -44,9 +43,9 @@ tracker = &"right_hand"
 script = ExtResource("2_fsave")
 
 [node name="FunctionPickup" parent="SubViewport/XROrigin3D/RightHand" instance=ExtResource("4_smsx4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0399112, 0, 0.153999)
 pickup_axis_action = "trigger"
 action_button_action = "grip"
+grab_distance = 0.1
 ranged_enable = false
 ranged_collision_mask = 0
 
@@ -59,6 +58,7 @@ tracker = &"left_hand"
 [node name="FunctionPickup" parent="SubViewport/XROrigin3D/LeftHand" instance=ExtResource("4_smsx4")]
 pickup_axis_action = "trigger"
 action_button_action = "grip"
+grab_distance = 0.1
 ranged_enable = false
 
 [node name="LeftPhysicsHand" parent="SubViewport/XROrigin3D/LeftHand" groups=["controller"] instance=ExtResource("5_ifv0l")]
@@ -80,21 +80,18 @@ current = true
 
 [node name="Ground" parent="." groups=["ground"] instance=ExtResource("8_added")]
 unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
 freeze = true
 
 [node name="CollisionShape3D" parent="Ground" index="0"]
 disabled = true
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.249479, 0, -0.15601)
 shape = SubResource("BoxShape3D_ortcs")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.246, 0.5, -0.133)
 mesh = SubResource("PlaneMesh_0d882")
 skeleton = NodePath("")
-
-[node name="PickableObject2" parent="." instance=ExtResource("8_hq5gw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.0913103)
 
 [editable path="Ground"]
