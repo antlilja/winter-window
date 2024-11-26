@@ -2,3 +2,8 @@
 .godot/
 /android/
 *.so
+*.obj
+*.lib
+*.pdb
+*.dll
+*.exp
