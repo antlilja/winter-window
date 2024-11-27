@@ -41,6 +41,9 @@ func _notification(what: int) -> void:
 		rd.free_rid(buffer_in)
 
 func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("enable_camera"):
+		mesh.visible = !mesh.visible
+	
 	if Input.is_action_just_pressed("ui_accept"):
 		material.set_shader_parameter("show_depth", !material.get_shader_parameter("show_depth"))
 
@@ -54,15 +57,13 @@ func _process(delta: float) -> void:
 		rd.compute_list_end()
 		
 		rd.submit()
+		rd.sync()
 		
 		colour_image.set_data(1280, 720, false, Image.Format.FORMAT_RGB8, RealSense.get_colour_image())
 		var colour_texture = ImageTexture.create_from_image(colour_image)
 		material.set_shader_parameter("colour_texture", colour_texture) 
 		
-		rd.sync()
 		var output_bytes := rd.buffer_get_data(buffer_out)
-		#var float_data = output_bytes.to_float32_array();
-		#print(float_data[1280 * 360 + 640])
 		depth_image.set_data(1280, 720, false, Image.Format.FORMAT_RF, output_bytes)
 		var depth_texture = ImageTexture.create_from_image(depth_image)
 		material.set_shader_parameter("depth_texture", depth_texture) 

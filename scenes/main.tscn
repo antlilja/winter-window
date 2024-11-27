@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://d1l2bdq6b5d43"]
+[gd_scene load_steps=17 format=3 uid="uid://d1l2bdq6b5d43"]
 
 [ext_resource type="Script" path="res://scenes/xr_origin_3d.gd" id="1_tti6x"]
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/misc/vr_common_shader_cache.tscn" id="2_35npe"]
@@ -7,10 +7,26 @@
 [ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="4_smsx4"]
 [ext_resource type="PackedScene" uid="uid://b8hc2ex21u8xj" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_physics_fullglove_low.tscn" id="5_ifv0l"]
 [ext_resource type="Script" path="res://scripts/camera_tracker.gd" id="6_qqexs"]
+[ext_resource type="PackedScene" uid="uid://4d2o0bgi66le" path="res://assets/htc_vive_controller.glb" id="6_vyu8b"]
+[ext_resource type="Script" path="res://scripts/camera_adjuster.gd" id="8_0d4es"]
 [ext_resource type="PackedScene" uid="uid://b32ck1qq3b6v" path="res://scenes/snowball_pickable.tscn" id="8_hq5gw"]
+[ext_resource type="Shader" path="res://shaders/depth.gdshader" id="8_jakao"]
+[ext_resource type="Script" path="res://scenes/realsensetest.gd" id="8_l78mt"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_5gofk"]
 size = Vector3(0.1, 0.1, 0.1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8pmhv"]
+render_priority = 0
+shader = ExtResource("8_jakao")
+shader_parameter/show_depth = false
+shader_parameter/far = 8.0
+shader_parameter/near = 0.1
+
+[sub_resource type="QuadMesh" id="QuadMesh_ktyjs"]
+material = SubResource("ShaderMaterial_8pmhv")
+flip_faces = true
+size = Vector2(2, 2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ortcs"]
 size = Vector3(5.34534, 1, 5.68835)
@@ -30,6 +46,7 @@ current = true
 script = ExtResource("1_tti6x")
 
 [node name="XRCamera3D" type="XRCamera3D" parent="SubViewport/XROrigin3D"]
+cull_mask = 1048573
 current = true
 
 [node name="VRCommonShaderCache" parent="SubViewport/XROrigin3D/XRCamera3D" instance=ExtResource("2_35npe")]
@@ -45,6 +62,9 @@ ranged_enable = false
 ranged_collision_mask = 0
 
 [node name="RightPhysicsHand" parent="SubViewport/XROrigin3D/RightHand" groups=["controller"] instance=ExtResource("4_k3nmj")]
+
+[node name="Sketchfab_Scene" parent="SubViewport/XROrigin3D/RightHand" instance=ExtResource("6_vyu8b")]
+transform = Transform3D(0.12, 0, 0, 0, 0.118875, -0.0163958, 0, 0.0163958, 0.118875, 0, -0.00341678, 0.100595)
 
 [node name="LeftHand" type="XRController3D" parent="SubViewport/XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.683742, 0)
@@ -64,15 +84,29 @@ script = ExtResource("6_qqexs")
 mesh = SubResource("BoxMesh_5gofk")
 
 [node name="RemoteTransform3D" type="RemoteTransform3D" parent="SubViewport/XROrigin3D/CameraTracker"]
+transform = Transform3D(-0.564863, 0.0996005, -0.819152, -0.806707, 0.142244, 0.573576, 0.173648, 0.984808, -3.58063e-08, 0, 0, 0)
 remote_path = NodePath("../../../../Camera3D")
+script = ExtResource("8_0d4es")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.803717, 1.0514)
+transform = Transform3D(-0.564863, 0.0996005, -0.819152, -0.806707, 0.142244, 0.573576, 0.173648, 0.984808, -3.58063e-08, 0, 0.803717, 1.0514)
+cull_mask = 1048571
 current = true
+fov = 42.5
+near = 0.1
+far = 8.0
+script = ExtResource("8_l78mt")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.99481)
+visible = false
+layers = 2
+mesh = SubResource("QuadMesh_ktyjs")
 
 [node name="Ground" type="CSGBox3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.246, 0, -0.133)
+layers = 4
 size = Vector3(5.35693, 1, 5.66064)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Ground" groups=["ground"]]
