@@ -2,12 +2,15 @@
 extends Node3D
 
 var image
+var regen = 2.0
+var time = 0.0
 @onready var viewportTexture = $ground.material_override.get_shader_parameter("viewportTexture")
+var memTexture
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	var mat = $ground.get_active_material(0)
-	print(mat)
 	image = Image.create(512, 512, false, Image.FORMAT_RGBA8)
 	for x in range(512):
 		for y in range(512):
@@ -16,16 +19,41 @@ func _ready() -> void:
 	if mat is ShaderMaterial:
 		var texture = ImageTexture.create_from_image(image)
 		mat.set_shader_parameter("memoryTexture", texture)
-		print("Applied texture: ")
-		print(mat.get_shader_parameter("memoryTexture"))
+		memTexture = texture
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	time += delta
 	var data = viewportTexture.get_image()
+	var memData = memTexture.get_image()
 	for x in range(512):
+		
 		for y in range(512):
-			if data.get_pixel(x,y) != Color(0, 0, 0, 1):
-				image.set_pixel(x, y, data.get_pixel(x,y))
+			var pixel = data.get_pixel(x,y)
+			var memPixel = memData.get_pixel(x,y)
+			
+			var snowAmount = 0.1
+			
+			# Deforms new snow
+			if pixel != Color(0, 0, 0, 1):
+				image.set_pixel(x, y, pixel)
+				
+	#		var newPixel = memPixel
+			#Check previous snow and check if it should regenerate
+	#		if time > regen:
+	#			if newPixel.r - snowAmount > 0:
+	#				newPixel.r = newPixel.r - snowAmount
+	#				newPixel.b = newPixel.r - snowAmount
+	#				newPixel.g = newPixel.r - snowAmount
+	#			else:
+	#				newPixel.r = 0
+	#				newPixel.b = 0
+	#				newPixel.g = 0
+	#				
+	#			image.set_pixel(x, y, newPixel)
+	
+	#if (time > regen):
+	#	time = 0.0
 	var texture = ImageTexture.create_from_image(image)
 	$ground.material_override.set_shader_parameter("memoryTexture", texture)
 	#print($ground.material_override.get_shader_parameter("memoryTexture"))	
