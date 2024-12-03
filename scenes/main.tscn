@@ -59,10 +59,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.131405, 0.695897, 0)
 tracker = &"right_hand"
 
 [node name="FunctionPickup" parent="SubViewport/XROrigin3D/RightHand" instance=ExtResource("4_smsx4")]
+pickup_axis_action = "trigger_click"
+action_button_action = "grip"
 ranged_enable = false
 ranged_collision_mask = 0
 
 [node name="RightPhysicsHand" parent="SubViewport/XROrigin3D/RightHand" groups=["controller"] instance=ExtResource("4_k3nmj")]
+grip_action = "trigger"
+trigger_action = "grip"
 
 [node name="Sketchfab_Scene" parent="SubViewport/XROrigin3D/RightHand" instance=ExtResource("6_vyu8b")]
 transform = Transform3D(0.12, 0, 0, 0, 0.118875, -0.0163958, 0, 0.0163958, 0.118875, 0, -0.00341678, 0.100595)
@@ -72,6 +76,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.683742, 0)
 tracker = &"left_hand"
 
 [node name="FunctionPickup" parent="SubViewport/XROrigin3D/LeftHand" instance=ExtResource("4_smsx4")]
+pickup_axis_action = "trigger_click"
+action_button_action = "grip"
 ranged_enable = false
 
 [node name="LeftPhysicsHand" parent="SubViewport/XROrigin3D/LeftHand" groups=["controller"] instance=ExtResource("5_ifv0l")]
