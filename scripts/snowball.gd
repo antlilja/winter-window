@@ -2,7 +2,7 @@ extends XRToolsPickable
 
 @onready var mesh = $MeshInstance3D
 @onready var collisionShape = $CollisionShape3D
-@onready var polygonShape = $CollisionPolygon3D
+#@onready var polygonShape = $CollisionPolygon3D
 
 @export var is_grounded = false
 
@@ -33,7 +33,7 @@ func _physics_process(delta : float):
 			
 		mesh.scale = mesh.scale*scale_factor
 		collisionShape.scale = collisionShape.scale*scale_factor
-		polygonShape.scale = polygonShape.scale*scale_factor
+		# polygonShape.scale = polygonShape.scale*scale_factor
 		
 	if is_grounded:
 		linear_velocity += -linear_velocity*0.1
@@ -50,7 +50,7 @@ func _physics_process(delta : float):
 func init_large():
 	collisionShape.scale = collisionShape.scale*10
 	mesh.scale = mesh.scale*10
-	polygonShape.scale = polygonShape.scale*10
+	#polygonShape.scale = polygonShape.scale*10
 	
 func lock_position():
 	linear_velocity = Vector3.ZERO
