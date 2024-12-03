@@ -57,7 +57,6 @@ tracker = &"right_hand"
 script = ExtResource("2_fsave")
 
 [node name="FunctionPickup" parent="SubViewport/XROrigin3D/RightHand" instance=ExtResource("4_smsx4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0399112, 0, 0.153999)
 ranged_enable = false
 ranged_collision_mask = 0
 
