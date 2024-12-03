@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://b32ck1qq3b6v" path="res://scenes/snowball_pickable.tscn" id="8_hq5gw"]
 [ext_resource type="Shader" path="res://shaders/depth.gdshader" id="8_jakao"]
 [ext_resource type="Script" path="res://scenes/realsensetest.gd" id="8_l78mt"]
+[ext_resource type="Script" path="res://scripts/ground.gd" id="11_7km4n"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_5gofk"]
 size = Vector3(0.1, 0.1, 0.1)
@@ -28,8 +29,11 @@ material = SubResource("ShaderMaterial_8pmhv")
 flip_faces = true
 size = Vector2(2, 2)
 
+[sub_resource type="PlaneMesh" id="PlaneMesh_3twpc"]
+size = Vector2(20, 20)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_ortcs"]
-size = Vector3(5.34534, 1, 5.68835)
+size = Vector3(20, 1, 20)
 
 [node name="Origin" type="Node3D"]
 
@@ -102,16 +106,22 @@ visible = false
 layers = 2
 mesh = SubResource("QuadMesh_ktyjs")
 
-[node name="Ground" type="CSGBox3D" parent="."]
+[node name="Ground" type="RigidBody3D" parent="." groups=["ground"]]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.246, 0, -0.133)
-layers = 4
-size = Vector3(5.35693, 1, 5.66064)
+transform = Transform3D(1, 0, 1.98139e-09, 0, 1, 1.12045e-10, 1.81614e-09, 1.51289e-08, 1, 0, 0.5, 0)
+collision_layer = 65537
+collision_mask = 65537
+freeze = true
+script = ExtResource("11_7km4n")
+picked_up_layer = 327684
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Ground" groups=["ground"]]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(1, 2.99764e-17, -1.98139e-09, 2.0349e-19, 1, -1.12045e-10, -1.81614e-09, -1.51289e-08, 1, 0, 0, 0)
+mesh = SubResource("PlaneMesh_3twpc")
+skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00347897, 0, -0.0230103)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground" groups=["ground"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 shape = SubResource("BoxShape3D_ortcs")
 
 [node name="PickableObject2" parent="." instance=ExtResource("8_hq5gw")]

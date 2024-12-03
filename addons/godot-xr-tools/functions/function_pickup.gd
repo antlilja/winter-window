@@ -3,7 +3,7 @@
 class_name XRToolsFunctionPickup
 extends Node3D
 
-
+var snowball_scene = load("res://scenes/snowball_pickable.tscn")
 ## XR Tools Function Pickup Script
 ##
 ## This script implements picking up of objects. Most pickable
@@ -424,6 +424,11 @@ func _on_grip_pressed() -> void:
 	if is_instance_valid(picked_up_object) and !picked_up_object.press_to_hold:
 		drop_object()
 	elif is_instance_valid(closest_object):
+		if closest_object.is_in_group("ground"):
+			print("Snowball created!")
+			var snowball = snowball_scene.instantiate()
+			get_tree().root.add_child(snowball)
+			closest_object = snowball
 		_pick_up_object(closest_object)
 
 
