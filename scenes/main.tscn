@@ -10,8 +10,8 @@
 [ext_resource type="Script" path="res://scripts/camera_adjuster.gd" id="8_0d4es"]
 [ext_resource type="PackedScene" uid="uid://b32ck1qq3b6v" path="res://scenes/snowball_pickable.tscn" id="8_hq5gw"]
 [ext_resource type="Shader" path="res://shaders/depth.gdshader" id="8_jakao"]
-[ext_resource type="Script" path="res://scenes/realsensetest.gd" id="8_l78mt"]
 [ext_resource type="Script" path="res://scripts/ground.gd" id="11_7km4n"]
+[ext_resource type="Script" path="res://scripts/realsense.gd" id="8_l78mt"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_5gofk"]
 size = Vector3(0.1, 0.1, 0.1)
