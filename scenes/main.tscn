@@ -35,6 +35,7 @@ size = Vector3(5.34534, 1, 5.68835)
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+visible = false
 
 [node name="SubViewport" type="SubViewport" parent="."]
 use_xr = true
@@ -117,6 +118,9 @@ shape = SubResource("BoxShape3D_ortcs")
 
 [node name="PickableObject2" parent="." instance=ExtResource("8_hq5gw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.0913103)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.384965, -0.92144, -0.0524418, 0.225307, 0.0387243, 0.973518, -0.895008, -0.386586, 0.222514, 0, 2.48301, 0)
 
 [connection signal="button_pressed" from="SubViewport/XROrigin3D/RightHand" to="SubViewport/XROrigin3D" method="_on_right_hand_button_pressed"]
 [connection signal="button_released" from="SubViewport/XROrigin3D/RightHand" to="SubViewport/XROrigin3D" method="_on_right_hand_button_released"]
