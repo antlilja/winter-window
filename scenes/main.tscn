@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://d1l2bdq6b5d43"]
+[gd_scene load_steps=18 format=3 uid="uid://d1l2bdq6b5d43"]
 
 [ext_resource type="Script" path="res://scenes/xr_origin_3d.gd" id="1_tti6x"]
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/misc/vr_common_shader_cache.tscn" id="2_35npe"]
@@ -10,8 +10,8 @@
 [ext_resource type="Script" path="res://scripts/camera_adjuster.gd" id="8_0d4es"]
 [ext_resource type="PackedScene" uid="uid://b32ck1qq3b6v" path="res://scenes/snowball_pickable.tscn" id="8_hq5gw"]
 [ext_resource type="Shader" path="res://shaders/depth.gdshader" id="8_jakao"]
+[ext_resource type="Script" path="res://scripts/realsense.gd" id="9_sf8hf"]
 [ext_resource type="Script" path="res://scripts/ground.gd" id="11_7km4n"]
-[ext_resource type="Script" path="res://scripts/realsense.gd" id="8_l78mt"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_5gofk"]
 size = Vector3(0.1, 0.1, 0.1)
@@ -67,7 +67,6 @@ ranged_collision_mask = 0
 
 [node name="RightPhysicsHand" parent="SubViewport/XROrigin3D/RightHand" groups=["controller"] instance=ExtResource("4_k3nmj")]
 grip_action = "trigger"
-trigger_action = "grip"
 
 [node name="Sketchfab_Scene" parent="SubViewport/XROrigin3D/RightHand" instance=ExtResource("6_vyu8b")]
 transform = Transform3D(0.12, 0, 0, 0, 0.118875, -0.0163958, 0, 0.0163958, 0.118875, 0, -0.00341678, 0.100595)
@@ -82,6 +81,7 @@ action_button_action = "grip"
 ranged_enable = false
 
 [node name="LeftPhysicsHand" parent="SubViewport/XROrigin3D/LeftHand" groups=["controller"] instance=ExtResource("5_ifv0l")]
+grip_action = "trigger"
 
 [node name="CameraTracker" type="XRController3D" parent="SubViewport/XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.803717, 1.0514)
@@ -103,6 +103,7 @@ current = true
 fov = 42.5
 near = 0.1
 far = 8.0
+script = ExtResource("9_sf8hf")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.99481)
@@ -121,6 +122,7 @@ picked_up_layer = 327684
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
 transform = Transform3D(1, 2.99764e-17, -1.98139e-09, 2.0349e-19, 1, -1.12045e-10, -1.81614e-09, -1.51289e-08, 1, 0, 0, 0)
+layers = 4
 mesh = SubResource("PlaneMesh_3twpc")
 skeleton = NodePath("")
 
@@ -133,4 +135,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.0913103)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.384965, -0.92144, -0.0524418, 0.225307, 0.0387243, 0.973518, -0.895008, -0.386586, 0.222514, 0, 2.48301, 0)
-
