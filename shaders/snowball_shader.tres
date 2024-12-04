@@ -1,0 +1,137 @@
+[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://bhvbaji2qd3r7"]
+
+[ext_resource type="Texture2D" uid="uid://bvho7tnucohao" path="res://shaders/random_normals.png" id="1_rif4l"]
+[ext_resource type="Texture2D" uid="uid://qcw6rdcw7jfv" path="res://shaders/sparkle_map.png" id="2_abpm0"]
+[ext_resource type="Texture2D" uid="uid://cgxoogtiq0vqc" path="res://shaders/sparkle_map_sparse.png" id="3_w2y7t"]
+
+[sub_resource type="Shader" id="Shader_q6bvr"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.3.stable.mono's StandardMaterial3D.
+
+shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_burley, specular_schlick_ggx;
+
+uniform sampler2D normal_nudge;
+uniform sampler2D sparkle_dense;
+uniform sampler2D sparkle_sparse;
+
+uniform float noise_seed = 0.0;
+
+/// Random3D and Noise3D are written by gegamongy and used under the GPL
+
+vec3 random3D(vec3 uvw){
+	uvw += vec3(noise_seed * 91.92, noise_seed * -30.011, noise_seed * 1102.09); // seeded, for less uniform snowballs
+    uvw = vec3( dot(uvw, vec3(127.1,311.7, 513.7) ),
+               dot(uvw, vec3(269.5,183.3, 396.5) ),
+			   dot(uvw, vec3(421.3,314.1, 119.7) ) );
+			
+    return -1.0 + 2.0 * fract(sin(uvw) * 43758.5453123);
+}
+
+float noise3D(vec3 uvw, float noise_scale, vec3 noise_transform){
+	uvw *= noise_scale;
+	uvw += noise_transform;
+	
+	vec3 gridIndex = floor(uvw); 
+	vec3 gridFract = fract(uvw);
+	
+	vec3 blur = smoothstep(0.0, 1.0, gridFract);
+	
+	vec3 blb = gridIndex + vec3(0.0, 0.0, 0.0);
+	vec3 brb = gridIndex + vec3(1.0, 0.0, 0.0);
+	vec3 tlb = gridIndex + vec3(0.0, 1.0, 0.0);
+	vec3 trb = gridIndex + vec3(1.0, 1.0, 0.0);
+	vec3 blf = gridIndex + vec3(0.0, 0.0, 1.0);
+	vec3 brf = gridIndex + vec3(1.0, 0.0, 1.0);
+	vec3 tlf = gridIndex + vec3(0.0, 1.0, 1.0);
+	vec3 trf = gridIndex + vec3(1.0, 1.0, 1.0);
+	
+	vec3 gradBLB = random3D(blb); 
+	vec3 gradBRB = random3D(brb);
+	vec3 gradTLB = random3D(tlb);
+	vec3 gradTRB = random3D(trb);
+	vec3 gradBLF = random3D(blf);
+	vec3 gradBRF = random3D(brf);
+	vec3 gradTLF = random3D(tlf);
+	vec3 gradTRF = random3D(trf);
+	
+	
+	vec3 distToPixelFromBLB = gridFract - vec3(0.0, 0.0, 0.0);
+	vec3 distToPixelFromBRB = gridFract - vec3(1.0, 0.0, 0.0);
+	vec3 distToPixelFromTLB = gridFract - vec3(0.0, 1.0, 0.0);
+	vec3 distToPixelFromTRB = gridFract - vec3(1.0, 1.0, 0.0);
+	vec3 distToPixelFromBLF = gridFract - vec3(0.0, 0.0, 1.0);
+	vec3 distToPixelFromBRF = gridFract - vec3(1.0, 0.0, 1.0);
+	vec3 distToPixelFromTLF = gridFract - vec3(0.0, 1.0, 1.0);
+	vec3 distToPixelFromTRF = gridFract - vec3(1.0, 1.0, 1.0);
+	
+	float dotBLB = dot(gradBLB, distToPixelFromBLB);
+	float dotBRB = dot(gradBRB, distToPixelFromBRB);
+	float dotTLB = dot(gradTLB, distToPixelFromTLB);
+	float dotTRB = dot(gradTRB, distToPixelFromTRB);
+	float dotBLF = dot(gradBLF, distToPixelFromBLF);
+	float dotBRF = dot(gradBRF, distToPixelFromBRF);
+	float dotTLF = dot(gradTLF, distToPixelFromTLF);
+	float dotTRF = dot(gradTRF, distToPixelFromTRF);
+	
+	
+	return mix(
+		mix(
+			mix(dotBLB, dotBRB, blur.x),
+			mix(dotTLB, dotTRB, blur.x), blur.y
+		),
+		mix(
+			mix(dotBLF, dotBRF, blur.x),
+			mix(dotTLF, dotTRF, blur.x), blur.y
+		), blur.z
+	) + 0.5;
+}
+
+uniform float default_noise_scale = 40.0;
+uniform vec3 default_noise_transform = vec3(0);
+
+float noise3D_default(vec3 uvw){
+	return noise3D(uvw, default_noise_scale, default_noise_transform);
+}
+
+
+uniform float bump_scale = 40.0;
+uniform float bump_intensity = 0.1;
+
+void vertex() {
+	VERTEX += VERTEX * noise3D(VERTEX, bump_scale, vec3(0)) * bump_intensity;
+}
+
+uniform float object_scale = 1;
+
+uniform float sparkle_size = 2.0;
+uniform float sparkle_intensity = 2.0;
+
+void fragment() {
+    NORMAL += texture(normal_nudge, UV * 3.0).rgb * 0.2;
+	NORMAL = normalize(NORMAL);
+	ALBEDO = vec3(0.8);
+	//ALBEDO = vec3(1,0,0); // Red ball for debug
+
+	// finds overlap between screenspace and worldspace sparkle maps
+	vec3 sparkle = texture(sparkle_dense, UV * object_scale  / sparkle_size).rgb * texture(sparkle_sparse, SCREEN_UV / sparkle_size).rgb;
+	ALBEDO += sparkle_intensity * sparkle;
+	ALBEDO = clamp(ALBEDO, 0.0, 2.0);
+}
+
+
+"
+
+[resource]
+render_priority = 0
+shader = SubResource("Shader_q6bvr")
+shader_parameter/noise_seed = -3.0
+shader_parameter/default_noise_scale = 40.0
+shader_parameter/default_noise_transform = Vector3(0, 0, 0)
+shader_parameter/bump_scale = 40.0
+shader_parameter/bump_intensity = 0.1
+shader_parameter/object_scale = 1.0
+shader_parameter/sparkle_size = 2.0
+shader_parameter/sparkle_intensity = 2.0
+shader_parameter/normal_nudge = ExtResource("1_rif4l")
+shader_parameter/sparkle_dense = ExtResource("2_abpm0")
+shader_parameter/sparkle_sparse = ExtResource("3_w2y7t")

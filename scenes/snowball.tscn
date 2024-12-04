@@ -1,22 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://c34bbjjb2j0d5"]
+[gd_scene load_steps=7 format=3 uid="uid://c34bbjjb2j0d5"]
 
 [ext_resource type="Script" path="res://scripts/snowball.gd" id="1_xwkjo"]
-
-[sub_resource type="Gradient" id="Gradient_l83jx"]
-offsets = PackedFloat32Array(0.0166667, 1)
-colors = PackedColorArray(0.684319, 0.867921, 1, 1, 1, 1, 1, 1)
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_k3wrx"]
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_q2ni1"]
-color_ramp = SubResource("Gradient_l83jx")
-noise = SubResource("FastNoiseLite_k3wrx")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i11u8"]
-albedo_texture = SubResource("NoiseTexture2D_q2ni1")
+[ext_resource type="Material" uid="uid://bhvbaji2qd3r7" path="res://scenes/snowball_shader.tres" id="2_j5mmq"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_mrf5k"]
-material = SubResource("StandardMaterial3D_i11u8")
+lightmap_size_hint = Vector2i(3, 2)
+material = ExtResource("2_j5mmq")
 radius = 0.05
 height = 0.1
 
@@ -39,13 +28,16 @@ max_contacts_reported = 5
 script = ExtResource("1_xwkjo")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
 mesh = SubResource("SphereMesh_mrf5k")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+visible = false
 shape = SubResource("SphereShape3D_bpj7e")
 
 [node name="CollisionPolygon3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
+visible = false
 shape = SubResource("ConvexPolygonShape3D_oocuv")
 disabled = true
 
