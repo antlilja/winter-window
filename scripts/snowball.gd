@@ -22,6 +22,9 @@ extends XRToolsPickable
 var max_disable_collision_time = 0.1
 var disable_collision_time = 0
 
+@onready var snow_material: Material = mesh.get_active_material(0);
+
+
 func _physics_process(delta : float):
 	var current_radius = mesh.mesh.radius * mesh.scale.x
 	# grow snowball if moving on ground
@@ -35,6 +38,8 @@ func _physics_process(delta : float):
 		collisionShape.scale = collisionShape.scale*scale_factor
 		# polygonShape.scale = polygonShape.scale*scale_factor
 		
+		snow_material.set_shader_parameter("object_scale", mesh.scale.x)
+				
 	if is_grounded:
 		linear_velocity += -linear_velocity*0.1
 		angular_velocity += -angular_velocity*0.5
