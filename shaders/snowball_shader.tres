@@ -99,21 +99,26 @@ uniform float bump_intensity = 0.1;
 
 void vertex() {
 	VERTEX += VERTEX * noise3D(VERTEX, bump_scale, vec3(0)) * bump_intensity;
+	//VERTEX.x += sin(TIME) * 0.1;
 }
 
 uniform float object_scale = 1;
 
-uniform float sparkle_size = 2.0;
-uniform float sparkle_intensity = 2.0;
+uniform float sparkle_size = 10.0;
+uniform float sparkle_intensity = 10.0;
 
 void fragment() {
-    NORMAL += texture(normal_nudge, UV * 3.0).rgb * 0.2;
+    NORMAL += texture(normal_nudge, UV * 3.0 * object_scale).rgb * 0.2;
 	NORMAL = normalize(NORMAL);
 	ALBEDO = vec3(0.8);
 	//ALBEDO = vec3(1,0,0); // Red ball for debug
-
+	
+	
+	
 	// finds overlap between screenspace and worldspace sparkle maps
-	vec3 sparkle = texture(sparkle_dense, UV * object_scale  / sparkle_size).rgb * texture(sparkle_sparse, SCREEN_UV / sparkle_size).rgb;
+	vec3 forward = CAMERA_DIRECTION_WORLD * vec3(0.0, 0.0, 1.0);
+	vec3 dir = normalize(forward + vec3(SCREEN_UV.x * 2.0 - 1.0, SCREEN_UV.y * 2.0 - 1.0, 0.0));
+	vec3 sparkle = texture(sparkle_dense, UV  * object_scale / sparkle_size).rgb * texture(sparkle_sparse, cross(NORMAL, dir).rb / sparkle_size).rgb;
 	ALBEDO += sparkle_intensity * sparkle;
 	ALBEDO = clamp(ALBEDO, 0.0, 2.0);
 }
@@ -130,8 +135,8 @@ shader_parameter/default_noise_transform = Vector3(0, 0, 0)
 shader_parameter/bump_scale = 40.0
 shader_parameter/bump_intensity = 0.1
 shader_parameter/object_scale = 1.0
-shader_parameter/sparkle_size = 2.0
-shader_parameter/sparkle_intensity = 2.0
+shader_parameter/sparkle_size = 3.0
+shader_parameter/sparkle_intensity = 3.0
 shader_parameter/normal_nudge = ExtResource("1_rif4l")
 shader_parameter/sparkle_dense = ExtResource("2_abpm0")
 shader_parameter/sparkle_sparse = ExtResource("3_w2y7t")
