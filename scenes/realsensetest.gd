@@ -13,7 +13,9 @@ var buffer_out := rd.storage_buffer_create(1280 * 720 * 4)
 
 var uniform_set: RID
 var colour_image: Image
+var colour_texture: ImageTexture
 var depth_image: Image
+var depth_texture: ImageTexture
 var material: Material
 
 func _ready() -> void:
@@ -27,12 +29,18 @@ func _ready() -> void:
 	uniform2.uniform_type = RenderingDevice.UNIFORM_TYPE_STORAGE_BUFFER
 	uniform2.binding = 1
 	uniform2.add_id(buffer_out)
-	uniform_set = rd.uniform_set_create([uniform, uniform2], shader, 0) # the last parameter (the 0) 
-	
-	colour_image = Image.create(1280, 720, false, Image.Format.FORMAT_RGB8)
-	depth_image = Image.create(1280, 720, false, Image.Format.FORMAT_RF)
+	uniform_set = rd.uniform_set_create([uniform, uniform2], shader, 0)
 	
 	material = mesh.get_active_material(0)
+	
+	colour_image = Image.create(1280, 720, false, Image.Format.FORMAT_RGB8)
+	colour_texture = ImageTexture.create_from_image(colour_image)
+	material.set_shader_parameter("colour_texture", colour_texture) 
+	
+	depth_image = Image.create(1280, 720, false, Image.Format.FORMAT_RF)
+	depth_texture = ImageTexture.create_from_image(depth_image)
+	material.set_shader_parameter("depth_texture", depth_texture) 
+
 
 func _notification(what: int) -> void:
 	if (what == NOTIFICATION_PREDELETE):
@@ -60,10 +68,8 @@ func _process(delta: float) -> void:
 		rd.sync()
 		
 		colour_image.set_data(1280, 720, false, Image.Format.FORMAT_RGB8, RealSense.get_colour_image())
-		var colour_texture = ImageTexture.create_from_image(colour_image)
-		material.set_shader_parameter("colour_texture", colour_texture) 
+		colour_texture.update(colour_image)
 		
 		var output_bytes := rd.buffer_get_data(buffer_out)
 		depth_image.set_data(1280, 720, false, Image.Format.FORMAT_RF, output_bytes)
-		var depth_texture = ImageTexture.create_from_image(depth_image)
-		material.set_shader_parameter("depth_texture", depth_texture) 
+		depth_texture.update(depth_image)

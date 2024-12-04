@@ -4,9 +4,11 @@
 export.cfg
 export_presets.cfg
 
+*.os
 *.so
 *.obj
 *.lib
 *.pdb
 *.dll
 *.exp
+*.dblite

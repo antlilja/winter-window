@@ -1,3 +1,4 @@
-[submodule "godot-realsense"]
-	path = godot-realsense
-	url = https://github.com/antlilja/godot-realsense.git
+[submodule "realsense/godot-cpp"]
+	path = realsense/godot-cpp
+	url = https://github.com/godotengine/godot-cpp.git
+	branch = 4.3
