@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dpjunf4odsthw"
+path="res://.godot/imported/step 12.mp3-6f2144a4040a24a0821b88425f19fec7.mp3str"
+
+[deps]
+
+source_file="res://sounds/step 12.mp3"
+dest_files=["res://.godot/imported/step 12.mp3-6f2144a4040a24a0821b88425f19fec7.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
