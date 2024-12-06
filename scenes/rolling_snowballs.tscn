@@ -43,6 +43,13 @@ transform = Transform3D(1, 0, 0, 0, 0.0437588, 0.999042, 0, -0.999042, 0.0437588
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0197754, -2, -4.01254)
 shape = SubResource("BoxShape3D_i6bli")
 
+[node name="Area3D" type="Area3D" parent="Playground" groups=["ground"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.134873, 0)
+
+[node name="Ground" type="CollisionShape3D" parent="Playground/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0197754, -2, -4.01254)
+shape = SubResource("BoxShape3D_i6bli")
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Playground"]
 transform = Transform3D(1.83399, 0, 0, 0, 1, 0, 0, 0, 1.29119, 0, -2, -3.91284)
 mesh = SubResource("BoxMesh_c7agw")
