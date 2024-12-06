@@ -25,6 +25,7 @@ ground=""
 snowball=""
 controller=""
 grounded=""
+camera=""
 
 [input]
 
