@@ -2,7 +2,7 @@ extends XRToolsPickable
 
 @onready var mesh = $MeshInstance3D
 @onready var collisionShape = $CollisionShape3D
-#@onready var polygonShape = $CollisionPolygon3D
+@onready var triggerArea = $Area3D
 
 @export var is_grounded = false
 
@@ -22,6 +22,10 @@ extends XRToolsPickable
 var max_disable_collision_time = 0.1
 var disable_collision_time = 0
 
+# destruction variables
+var collision_velocity = Vector3.ZERO
+var explosion_speed_thresh = 4
+
 @onready var snow_material: Material = mesh.get_active_material(0);
 
 
@@ -36,7 +40,7 @@ func _physics_process(delta : float):
 			
 		mesh.scale = mesh.scale*scale_factor
 		collisionShape.scale = collisionShape.scale*scale_factor
-		# polygonShape.scale = polygonShape.scale*scale_factor
+		triggerArea.scale = triggerArea.scale*scale_factor
 		
 		snow_material.set_shader_parameter("object_scale", mesh.scale.x)
 				
@@ -45,7 +49,7 @@ func _physics_process(delta : float):
 		angular_velocity += -angular_velocity*0.5
 		
 	if global_position.y < 0.5: # hard coded ground level
-		global_position.y = 0 + 0.5 + current_radius # ground position.y, ground size.y
+		pass#global_position.y = 0 + 0.5 + current_radius # ground position.y, ground size.y
 		
 	if disable_collision_time > 0:
 		disable_collision_time -= delta
@@ -55,7 +59,7 @@ func _physics_process(delta : float):
 func init_large():
 	collisionShape.scale = collisionShape.scale*10
 	mesh.scale = mesh.scale*10
-	#polygonShape.scale = polygonShape.scale*10
+	triggerArea.scale = triggerArea.scale*10
 	
 func lock_position():
 	linear_velocity = Vector3.ZERO
@@ -88,8 +92,14 @@ func set_grounded(grounded : bool):
 		remove_from_group("grounded")
 	
 func _on_body_entered(body):
+	if collision_velocity.length() > explosion_speed_thresh or body.is_in_group("camera"):
+		print("Explosion!")
+		# TODO trigger particle effect
+		# TODO remove self
+		return
+	
 	if body.is_in_group("ground"):
-		set_grounded(true)
+		set_grounded(true)		
 		
 	if body.is_in_group("snowball"):
 		# don't attatch two grounded snowballs
@@ -119,3 +129,6 @@ func _on_grabbed(pickable: Variant, by: Variant) -> void:
 func _on_dropped(pickable: Variant) -> void:	
 	disable_collision_time = max_disable_collision_time
 	set_collision_mask_value(18, false)
+
+func _on_area_3d_area_entered(area: Area3D) -> void:
+	collision_velocity = linear_velocity
