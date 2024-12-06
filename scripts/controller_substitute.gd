@@ -1,6 +1,5 @@
 extends RigidBody3D
 
-var snowball_scene = preload("res://scenes/snowball.tscn")
 var current_snowball: RigidBody3D = null
 
 # testing variables
