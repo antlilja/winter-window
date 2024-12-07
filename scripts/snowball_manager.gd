@@ -1,5 +1,5 @@
 extends Node3D
-var snowball_scene = preload("res://scenes/snowball.tscn")
+var snowball_scene = preload("res://scenes/snowball_pickable.tscn")
 
 @export var init_large = true
 
