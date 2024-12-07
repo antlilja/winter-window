@@ -6,6 +6,7 @@ extends XRToolsPickable
 
 @export var is_grounded = false
 @export var is_grabbed = false
+var current_radius
 
 # roll variables
 @export var scale_factor_small = 1.01
@@ -20,10 +21,14 @@ extends XRToolsPickable
 var max_disable_collision_time = 0.1
 var disable_collision_time = 0
 
+# stacking
+@export var balance_thresh = 0.9 # [0,1]
+@export var balance_thresh_lower = 0.1 # for smaller snowballs, or with multiple snowballs supporting it
+
 @onready var snow_material: Material = mesh.get_active_material(0);
 	
 func _physics_process(delta : float):
-	var current_radius = mesh.mesh.radius * mesh.scale.x
+	current_radius = mesh.mesh.radius * mesh.scale.x
 	# grow snowball if moving on ground
 	if is_grounded and not is_grabbed and linear_velocity.length() > speed_threshold and current_radius < max_size:
 		# scale scalefactor
@@ -83,8 +88,31 @@ func _on_body_entered(body):
 		# don't attatch two grounded snowballs
 		if is_grounded and body.is_in_group("grounded"):
 			return
-			
-		lock_position()
+		
+		# lower balance thresh if small snowball
+		var current_balance_thresh = balance_thresh
+		if current_radius < 0.1:
+			current_balance_thresh = balance_thresh_lower
+		
+		# check balance against single snowball
+		if (position - body.position).normalized().y > current_balance_thresh:
+			lock_position()
+			body.lock_position()
+			return
+		
+		# check balance against all colliding snowballs with lower requirement on balance
+		var support_count = 0
+		var collisions = get_colliding_bodies()
+		for c in collisions:
+			if c.is_in_group("snowball"):
+				if (position - c.position).normalized().y > balance_thresh_lower:
+					support_count += 1
+		
+		if support_count > 1:
+			lock_position()
+			for c in collisions:
+				if c.is_in_group("snowball"):
+					c.lock_position()
 
 func _on_body_exited(body) -> void:
 	if body.is_in_group("ground"):
