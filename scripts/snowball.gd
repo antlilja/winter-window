@@ -15,16 +15,12 @@ extends XRToolsPickable
 @export var max_size = 0.5
 @export var speed_threshold = 0.5 # avoid snowball rapidly growing because of a slight rolling
 
-# stack variables
-@export var attatched_snowballs = 0
-
 # pickup
 var max_disable_collision_time = 0.1
 var disable_collision_time = 0
 
 @onready var snow_material: Material = mesh.get_active_material(0);
-
-
+	
 func _physics_process(delta : float):
 	var current_radius = mesh.mesh.radius * mesh.scale.x
 	# grow snowball if moving on ground
@@ -45,7 +41,7 @@ func _physics_process(delta : float):
 		angular_velocity += -angular_velocity*0.5
 		
 	if global_position.y < 0.5: # hard coded ground level
-		global_position.y = 0 + 0.5 + current_radius # ground position.y, ground size.y
+		pass #global_position.y = 0 + 0.5 + current_radius # ground position.y, ground size.y
 		
 	if disable_collision_time > 0:
 		disable_collision_time -= delta
@@ -61,6 +57,8 @@ func lock_position():
 	linear_velocity = Vector3.ZERO
 	angular_velocity = Vector3.ZERO
 	set_collision_mask_value(18, false)
+	enabled = false # enables pickable property
+
 	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_LINEAR_X, true)
 	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_LINEAR_Y, true)
 	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_LINEAR_Z, true)
@@ -68,21 +66,10 @@ func lock_position():
 	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_ANGULAR_X, true)
 	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_ANGULAR_Y, true)
 	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_ANGULAR_Z, true)
-	
-func unlock_position():
-	set_collision_mask_value(18, true)
-	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_LINEAR_X, false)
-	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_LINEAR_Y, false)
-	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_LINEAR_Z, false)
-	
-	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_ANGULAR_X, false)
-	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_ANGULAR_Y, false)
-	set_axis_lock(PhysicsServer3D.BodyAxis.BODY_AXIS_ANGULAR_Z, false)
 
 func set_grounded(grounded : bool):
 	is_grounded = grounded
 	if (grounded):
-		
 		add_to_group("grounded")
 	else:
 		remove_from_group("grounded")
@@ -96,25 +83,14 @@ func _on_body_entered(body):
 		if is_grounded and body.is_in_group("grounded"):
 			return
 			
-		attatched_snowballs += 1
 		lock_position()
-		
-	if body.is_in_group("controller") and not is_grounded: # could be more restrictive but would risk deadlock
-		print("Collision with controller")
-		unlock_position()
 
 func _on_body_exited(body) -> void:
 	if body.is_in_group("ground"):
 		set_grounded(false)
-		
-	if body.is_in_group("snowball"):
-		attatched_snowballs -= 1
-		if attatched_snowballs < 1:
-			unlock_position()
 
 func _on_grabbed(pickable: Variant, by: Variant) -> void:
 	set_collision_mask_value(18, true)
-	unlock_position()
 
 func _on_dropped(pickable: Variant) -> void:	
 	disable_collision_time = max_disable_collision_time
