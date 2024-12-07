@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://b32ck1qq3b6v"]
+[gd_scene load_steps=15 format=3 uid="uid://b32ck1qq3b6v"]
 
 [ext_resource type="PackedScene" uid="uid://c25yxb0vt53vc" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" id="2_85yq8"]
 [ext_resource type="Script" path="res://scripts/snowball.gd" id="2_a1nou"]
@@ -7,6 +7,7 @@
 [ext_resource type="Animation" uid="uid://cnng6xumhw7cx" path="res://addons/godot-xr-tools/hands/animations/left/Rounded.res" id="3_y35a2"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/hands/poses/hand_pose_settings.gd" id="4_t73iy"]
 [ext_resource type="Animation" uid="uid://wcwa3p1qrhwr" path="res://addons/godot-xr-tools/hands/animations/right/Rounded.res" id="6_1qy3h"]
+[ext_resource type="PackedScene" uid="uid://cjmo2vfflufqp" path="res://scenes/explosion.tscn" id="9_i0l0t"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nhfe7"]
 
@@ -24,7 +25,10 @@ radius = 0.05
 height = 0.1
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_ork5r"]
-radius = 0.06
+radius = 0.05
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_d5xgf"]
+radius = 0.0611251
 
 [node name="Snowball" type="RigidBody3D" groups=["snowball"]]
 collision_layer = 4
@@ -53,13 +57,15 @@ mesh = SubResource("SphereMesh_bgwuy")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_ork5r")
 
-[node name="Area3D" type="Area3D" parent="." groups=["snowball"]]
+[node name="VelocityTrigger" type="Area3D" parent="." groups=["snowball"]]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-shape = SubResource("SphereShape3D_ork5r")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="VelocityTrigger"]
+shape = SubResource("SphereShape3D_d5xgf")
+
+[node name="Explosion" parent="." instance=ExtResource("9_i0l0t")]
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]
 [connection signal="dropped" from="." to="." method="_on_dropped"]
 [connection signal="grabbed" from="." to="." method="_on_grabbed"]
-[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]
+[connection signal="area_entered" from="VelocityTrigger" to="." method="_on_area_3d_area_entered"]

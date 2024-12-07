@@ -1,8 +1,9 @@
 extends XRToolsPickable
 
 @onready var mesh = $MeshInstance3D
-@onready var collisionShape = $CollisionShape3D
-@onready var triggerArea = $Area3D
+@onready var collision_shape = $CollisionShape3D
+@onready var velocity_trigger = $VelocityTrigger
+@onready var explosion_effect = $Explosion
 
 @export var is_grounded = false
 
@@ -28,9 +29,9 @@ var explosion_speed_thresh = 4
 
 @onready var snow_material: Material = mesh.get_active_material(0);
 
-
 func _physics_process(delta : float):
 	var current_radius = mesh.mesh.radius * mesh.scale.x
+	
 	# grow snowball if moving on ground
 	if is_grounded and linear_velocity.length() > speed_threshold and current_radius < max_size:
 		# scale scalefactor
@@ -39,10 +40,11 @@ func _physics_process(delta : float):
 		var scale_factor = clamp(v, scale_factor_large, scale_factor_small)
 			
 		mesh.scale = mesh.scale*scale_factor
-		collisionShape.scale = collisionShape.scale*scale_factor
-		triggerArea.scale = triggerArea.scale*scale_factor
+		collision_shape.scale = collision_shape.scale*scale_factor
+		velocity_trigger.scale = velocity_trigger.scale*scale_factor
 		
 		snow_material.set_shader_parameter("object_scale", mesh.scale.x)
+		explosion_effect.increase_explosion_size(scale_factor)
 				
 	if is_grounded:
 		linear_velocity += -linear_velocity*0.1
@@ -57,9 +59,11 @@ func _physics_process(delta : float):
 			set_collision_mask_value(18, true)
 		
 func init_large():
-	collisionShape.scale = collisionShape.scale*10
+	collision_shape.scale = collision_shape.scale*10
 	mesh.scale = mesh.scale*10
-	triggerArea.scale = triggerArea.scale*10
+	velocity_trigger.scale = velocity_trigger.scale*10
+	
+	explosion_effect.increase_explosion_size(10)
 	
 func lock_position():
 	linear_velocity = Vector3.ZERO
@@ -90,12 +94,21 @@ func set_grounded(grounded : bool):
 		add_to_group("grounded")
 	else:
 		remove_from_group("grounded")
+		
+func destroy_self():
+	# stop center of particle effects from moving
+	lock_position()
+	
+	# trigger particle effect
+	explosion_effect.explode_and_destroy()
+	
+	# remove snowball
+	remove_child(mesh)
+	remove_child(collision_shape)	
 	
 func _on_body_entered(body):
 	if collision_velocity.length() > explosion_speed_thresh or body.is_in_group("camera"):
-		print("Explosion!")
-		# TODO trigger particle effect
-		# TODO remove self
+		destroy_self()
 		return
 	
 	if body.is_in_group("ground"):

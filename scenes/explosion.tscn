@@ -1,0 +1,122 @@
+[gd_scene load_steps=19 format=3 uid="uid://cjmo2vfflufqp"]
+
+[ext_resource type="Script" path="res://scripts/explosion.gd" id="1_obttc"]
+[ext_resource type="Texture2D" uid="uid://dv8ndbt2k1kqn" path="res://textures/circle.png" id="2_i72si"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_otctr"]
+resource_local_to_scene = true
+transparency = 1
+blend_mode = 1
+cull_mode = 2
+shading_mode = 0
+albedo_texture = ExtResource("2_i72si")
+
+[sub_resource type="Curve" id="Curve_bsjnf"]
+_data = [Vector2(0.0183486, 0), 0.0, 0.0, 0, 0, Vector2(0.392202, 0.362815), 1.0199, 1.0199, 0, 0, Vector2(0.502294, 0.409091), -0.0600784, -0.0600784, 0, 0, Vector2(0.584862, 0.345016), -0.756115, -0.756115, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="CurveTexture" id="CurveTexture_a5so4"]
+curve = SubResource("Curve_bsjnf")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_pe42w"]
+lifetime_randomness = 0.1
+emission_shape = 1
+emission_sphere_radius = 2.0
+initial_velocity_min = 0.01
+initial_velocity_max = 0.02
+gravity = Vector3(0, 0, 0)
+scale_min = 0.0
+scale_curve = SubResource("CurveTexture_a5so4")
+turbulence_enabled = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_ug4d5"]
+size = Vector2(0.05, 0.05)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hgcb4"]
+
+[sub_resource type="Curve" id="Curve_b2nga"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.389908, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.0531217), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_gytp3"]
+curve = SubResource("Curve_b2nga")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ch7jt"]
+particle_flag_align_y = true
+spread = 180.0
+initial_velocity_min = 4.0
+initial_velocity_max = 14.0
+scale_min = 0.5
+scale_max = 1.5
+scale_curve = SubResource("CurveTexture_gytp3")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ibhgv"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_3u2vj"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_ibhgv")
+radius = 0.025
+height = 0.05
+
+[sub_resource type="Curve" id="Curve_6mgru"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.972477, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_fht3w"]
+curve = SubResource("Curve_6mgru")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_os5om"]
+particle_flag_align_y = true
+spread = 150.0
+initial_velocity_min = 8.0
+initial_velocity_max = 12.0
+scale_curve = SubResource("CurveTexture_fht3w")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fp1o2"]
+albedo_color = Color(0.917936, 0.937503, 0.936833, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_tknbl"]
+material = SubResource("StandardMaterial3D_fp1o2")
+radius = 0.04
+height = 0.08
+
+[node name="Explosion" type="Node3D"]
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0, 0, 0)
+script = ExtResource("1_obttc")
+
+[node name="Dust" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.98851, 0)
+material_override = SubResource("StandardMaterial3D_otctr")
+emitting = false
+amount = 10
+lifetime = 3.0
+speed_scale = 2.5
+process_material = SubResource("ParticleProcessMaterial_pe42w")
+draw_pass_1 = SubResource("QuadMesh_ug4d5")
+
+[node name="Bits" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.351757, 0)
+material_override = SubResource("StandardMaterial3D_hgcb4")
+emitting = false
+amount = 24
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_ch7jt")
+draw_pass_1 = SubResource("SphereMesh_3u2vj")
+
+[node name="SmallBits" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.351757, 0)
+emitting = false
+amount = 24
+lifetime = 0.86
+one_shot = true
+speed_scale = 1.5
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_os5om")
+draw_pass_1 = SubResource("SphereMesh_tknbl")
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="finished" from="Bits" to="." method="_on_bits_finished"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
