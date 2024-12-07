@@ -31,7 +31,7 @@ visible = false
 size = Vector3(5.35693, 1, 5.66064)
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.938511, 0.345249, 0, -0.345249, 0.938511, 0, 1.05349, 4.20245)
+transform = Transform3D(1, 0, 0, 0, 0.938511, 0.345249, 0, -0.345249, 0.938511, 0, 0.624736, 3.38823)
 current = true
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
