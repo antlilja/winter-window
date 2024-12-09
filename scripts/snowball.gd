@@ -101,7 +101,7 @@ func destroy_self():
 	remove_child(collision_shape)	
 	
 func _on_body_entered(body):
-	if collision_velocity.length() > explosion_speed_thresh or body.is_in_group("camera"):
+	if not is_grabbed and collision_velocity.length() > explosion_speed_thresh or body.is_in_group("camera"):
 		destroy_self()
 		return
 	
@@ -147,4 +147,4 @@ func _on_dropped(pickable: Variant) -> void:
 
 func _on_area_3d_area_entered(area: Area3D) -> void:
 	collision_velocity = linear_velocity
-	is_grabbed = false
+	#is_grabbed = false
