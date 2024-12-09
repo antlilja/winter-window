@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://d1l2bdq6b5d43"]
+[gd_scene load_steps=20 format=3 uid="uid://d1l2bdq6b5d43"]
 
 [ext_resource type="Script" path="res://scenes/xr_origin_3d.gd" id="1_tti6x"]
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/misc/vr_common_shader_cache.tscn" id="2_35npe"]
@@ -15,6 +15,9 @@
 
 [sub_resource type="BoxMesh" id="BoxMesh_5gofk"]
 size = Vector3(0.1, 0.1, 0.1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_pt7wx"]
+radius = 0.0664894
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8pmhv"]
 render_priority = 0
@@ -33,6 +36,9 @@ size = Vector2(20, 20)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ortcs"]
 size = Vector3(20, 1, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_67qiq"]
+size = Vector3(19.1964, 1, 19.5048)
 
 [node name="Origin" type="Node3D"]
 
@@ -96,6 +102,13 @@ transform = Transform3D(-0.564863, 0.0996005, -0.819152, -0.806707, 0.142244, 0.
 remote_path = NodePath("../../../../Camera3D")
 script = ExtResource("8_0d4es")
 
+[node name="StaticBody3D" type="StaticBody3D" parent="SubViewport/XROrigin3D/CameraTracker" groups=["camera"]]
+collision_layer = 5
+collision_mask = 5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewport/XROrigin3D/CameraTracker/StaticBody3D"]
+shape = SubResource("SphereShape3D_pt7wx")
+
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(-0.564863, 0.0996005, -0.819152, -0.806707, 0.142244, 0.573576, 0.173648, 0.984808, -3.58063e-08, 0, 0.803717, 1.0514)
 cull_mask = 1048571
@@ -129,6 +142,12 @@ skeleton = NodePath("")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground" groups=["ground"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 shape = SubResource("BoxShape3D_ortcs")
+
+[node name="Area3D" type="Area3D" parent="Ground"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/Area3D" groups=["ground"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.104095, 0, 0.091217)
+shape = SubResource("BoxShape3D_67qiq")
 
 [node name="PickableObject2" parent="." instance=ExtResource("8_hq5gw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.0913103)

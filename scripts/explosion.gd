@@ -9,12 +9,10 @@ extends Node3D
 
 @onready var snowball = get_parent()
 
-func increase_explosion_size(scale_factor : float):
-	scale_factor = clampf(scale_factor/2, 1, scale_factor/2)
-	
+func set_explosion_size(scale_factor : float):
 	bits.draw_pass_1.radius = bits.draw_pass_1.radius*scale_factor
 	bits.draw_pass_1.height = bits.draw_pass_1.height*scale_factor
-	bits.lifetime = bits.lifetime*scale_factor
+	#bits.lifetime = bits.lifetime*scale_factor
 
 func explode_and_destroy():
 	bits.emitting = true
