@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="4_smsx4"]
 [ext_resource type="PackedScene" uid="uid://b8hc2ex21u8xj" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_physics_fullglove_low.tscn" id="5_ifv0l"]
 [ext_resource type="Script" path="res://scripts/camera_tracker.gd" id="6_qqexs"]
-[ext_resource type="PackedScene" uid="uid://4d2o0bgi66le" path="res://assets/htc_vive_controller.glb" id="6_vyu8b"]
+[ext_resource type="PackedScene" uid="uid://dwrtgtwdeefk7" path="res://official_vive2_controller.glb" id="6_xkmkk"]
 [ext_resource type="Script" path="res://scripts/camera_adjuster.gd" id="8_0d4es"]
 [ext_resource type="PackedScene" uid="uid://b32ck1qq3b6v" path="res://scenes/snowball_pickable.tscn" id="8_hq5gw"]
 [ext_resource type="Shader" path="res://shaders/depth.gdshader" id="8_jakao"]
@@ -56,7 +56,7 @@ current = true
 [node name="VRCommonShaderCache" parent="SubViewport/XROrigin3D/XRCamera3D" instance=ExtResource("2_35npe")]
 
 [node name="RightHand" type="XRController3D" parent="SubViewport/XROrigin3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.131405, 0.695897, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.131405, 1.36044, 0)
 tracker = &"right_hand"
 
 [node name="FunctionPickup" parent="SubViewport/XROrigin3D/RightHand" instance=ExtResource("4_smsx4")]
@@ -66,10 +66,11 @@ ranged_enable = false
 ranged_collision_mask = 0
 
 [node name="RightPhysicsHand" parent="SubViewport/XROrigin3D/RightHand" groups=["controller"] instance=ExtResource("4_k3nmj")]
+visible = false
 grip_action = "trigger"
 
-[node name="Sketchfab_Scene" parent="SubViewport/XROrigin3D/RightHand" instance=ExtResource("6_vyu8b")]
-transform = Transform3D(0.12, 0, 0, 0, 0.118875, -0.0163958, 0, 0.0163958, 0.118875, 0, -0.00341678, 0.100595)
+[node name="official_vive2_controller" parent="SubViewport/XROrigin3D/RightHand" instance=ExtResource("6_xkmkk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0104761, 0.00956999)
 
 [node name="LeftHand" type="XRController3D" parent="SubViewport/XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.683742, 0)
@@ -82,6 +83,9 @@ ranged_enable = false
 
 [node name="LeftPhysicsHand" parent="SubViewport/XROrigin3D/LeftHand" groups=["controller"] instance=ExtResource("5_ifv0l")]
 grip_action = "trigger"
+
+[node name="official_vive2_controller" parent="SubViewport/XROrigin3D/LeftHand" instance=ExtResource("6_xkmkk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0104761, 0.00956999)
 
 [node name="CameraTracker" type="XRController3D" parent="SubViewport/XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.803717, 1.0514)
