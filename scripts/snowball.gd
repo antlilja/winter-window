@@ -6,6 +6,7 @@ extends XRToolsPickable
 @onready var explosion_effect = $Explosion
 
 @export var is_grounded = false
+@export var is_grabbed = false
 
 # roll variables
 @export var scale_factor_small = 1.01
@@ -30,7 +31,7 @@ func _physics_process(delta : float):
 	var current_radius = mesh.mesh.radius * mesh.scale.x
 	
 	# grow snowball if moving on ground
-	if is_grounded and linear_velocity.length() > speed_threshold and current_radius < max_size:
+	if is_grounded and not is_grabbed and linear_velocity.length() > speed_threshold and current_radius < max_size:
 		# scale scalefactor
 		var f = (current_radius - radius_small) / (radius_large - radius_small)
 		var v = (scale_factor_large - scale_factor_small)*f + scale_factor_small
@@ -117,6 +118,7 @@ func _on_body_exited(body) -> void:
 
 func _on_grabbed(pickable: Variant, by: Variant) -> void:
 	set_collision_mask_value(18, true)
+	is_grabbed = true
 
 func _on_dropped(pickable: Variant) -> void:	
 	disable_collision_time = max_disable_collision_time
@@ -124,3 +126,4 @@ func _on_dropped(pickable: Variant) -> void:
 
 func _on_area_3d_area_entered(area: Area3D) -> void:
 	collision_velocity = linear_velocity
+	is_grabbed = false
