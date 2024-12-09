@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://b32ck1qq3b6v"]
+[gd_scene load_steps=32 format=3 uid="uid://b32ck1qq3b6v"]
 
 [ext_resource type="PackedScene" uid="uid://c25yxb0vt53vc" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" id="2_85yq8"]
 [ext_resource type="Script" path="res://scripts/snowball.gd" id="2_a1nou"]
@@ -7,7 +7,8 @@
 [ext_resource type="Animation" uid="uid://cnng6xumhw7cx" path="res://addons/godot-xr-tools/hands/animations/left/Rounded.res" id="3_y35a2"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/hands/poses/hand_pose_settings.gd" id="4_t73iy"]
 [ext_resource type="Animation" uid="uid://wcwa3p1qrhwr" path="res://addons/godot-xr-tools/hands/animations/right/Rounded.res" id="6_1qy3h"]
-[ext_resource type="PackedScene" uid="uid://cjmo2vfflufqp" path="res://scenes/explosion.tscn" id="9_i0l0t"]
+[ext_resource type="Script" path="res://scripts/explosion.gd" id="8_y7kxm"]
+[ext_resource type="Texture2D" uid="uid://dv8ndbt2k1kqn" path="res://textures/circle.png" id="9_mek3f"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nhfe7"]
 
@@ -29,6 +30,83 @@ radius = 0.05
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_d5xgf"]
 radius = 0.0611251
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ot686"]
+resource_local_to_scene = true
+transparency = 1
+blend_mode = 1
+cull_mode = 2
+shading_mode = 0
+albedo_texture = ExtResource("9_mek3f")
+
+[sub_resource type="Curve" id="Curve_bsjnf"]
+_data = [Vector2(0.0183486, 0), 0.0, 0.0, 0, 0, Vector2(0.392202, 0.362815), 1.0199, 1.0199, 0, 0, Vector2(0.502294, 0.409091), -0.0600784, -0.0600784, 0, 0, Vector2(0.584862, 0.345016), -0.756115, -0.756115, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="CurveTexture" id="CurveTexture_a5so4"]
+curve = SubResource("Curve_bsjnf")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_pe42w"]
+lifetime_randomness = 0.1
+emission_shape = 1
+emission_sphere_radius = 2.0
+initial_velocity_min = 0.01
+initial_velocity_max = 0.02
+gravity = Vector3(0, 0, 0)
+scale_min = 0.0
+scale_curve = SubResource("CurveTexture_a5so4")
+turbulence_enabled = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_ug4d5"]
+size = Vector2(0.05, 0.05)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hgcb4"]
+
+[sub_resource type="Curve" id="Curve_b2nga"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.389908, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.0531217), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_gytp3"]
+curve = SubResource("Curve_b2nga")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ch7jt"]
+particle_flag_align_y = true
+spread = 180.0
+initial_velocity_min = 4.0
+initial_velocity_max = 14.0
+scale_min = 0.5
+scale_max = 1.5
+scale_curve = SubResource("CurveTexture_gytp3")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ibhgv"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_7mmu7"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_ibhgv")
+radius = 0.025
+height = 0.05
+
+[sub_resource type="Curve" id="Curve_6mgru"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.972477, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_fht3w"]
+curve = SubResource("Curve_6mgru")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_os5om"]
+particle_flag_align_y = true
+spread = 150.0
+initial_velocity_min = 8.0
+initial_velocity_max = 12.0
+scale_curve = SubResource("CurveTexture_fht3w")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fp1o2"]
+albedo_color = Color(0.917936, 0.937503, 0.936833, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_tknbl"]
+material = SubResource("StandardMaterial3D_fp1o2")
+radius = 0.04
+height = 0.08
 
 [node name="Snowball" type="RigidBody3D" groups=["snowball"]]
 collision_layer = 4
@@ -62,10 +140,48 @@ shape = SubResource("SphereShape3D_ork5r")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="VelocityTrigger"]
 shape = SubResource("SphereShape3D_d5xgf")
 
-[node name="Explosion" parent="." instance=ExtResource("9_i0l0t")]
+[node name="Explosion" type="Node3D" parent="."]
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0, 0, 0)
+script = ExtResource("8_y7kxm")
+
+[node name="Dust" type="GPUParticles3D" parent="Explosion"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.98851, 0)
+material_override = SubResource("StandardMaterial3D_ot686")
+emitting = false
+amount = 10
+lifetime = 3.0
+speed_scale = 2.5
+process_material = SubResource("ParticleProcessMaterial_pe42w")
+draw_pass_1 = SubResource("QuadMesh_ug4d5")
+
+[node name="Bits" type="GPUParticles3D" parent="Explosion"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.351757, 0)
+material_override = SubResource("StandardMaterial3D_hgcb4")
+emitting = false
+amount = 24
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_ch7jt")
+draw_pass_1 = SubResource("SphereMesh_7mmu7")
+
+[node name="SmallBits" type="GPUParticles3D" parent="Explosion"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.351757, 0)
+emitting = false
+amount = 24
+lifetime = 0.86
+one_shot = true
+speed_scale = 1.5
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_os5om")
+draw_pass_1 = SubResource("SphereMesh_tknbl")
+
+[node name="Timer" type="Timer" parent="Explosion"]
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]
 [connection signal="dropped" from="." to="." method="_on_dropped"]
 [connection signal="grabbed" from="." to="." method="_on_grabbed"]
 [connection signal="area_entered" from="VelocityTrigger" to="." method="_on_area_3d_area_entered"]
+[connection signal="finished" from="Explosion/Bits" to="Explosion" method="_on_bits_finished"]
+[connection signal="timeout" from="Explosion/Timer" to="Explosion" method="_on_timer_timeout"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cjmo2vfflufqp"]
+[gd_scene load_steps=19 format=3 uid="uid://durho356vhpog"]
 
 [ext_resource type="Script" path="res://scripts/explosion.gd" id="1_obttc"]
 [ext_resource type="Texture2D" uid="uid://dv8ndbt2k1kqn" path="res://textures/circle.png" id="2_i72si"]
@@ -100,7 +100,6 @@ material_override = SubResource("StandardMaterial3D_hgcb4")
 emitting = false
 amount = 24
 lifetime = 0.5
-one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_ch7jt")
 draw_pass_1 = SubResource("SphereMesh_3u2vj")
@@ -110,7 +109,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.351757, 0)
 emitting = false
 amount = 24
 lifetime = 0.86
-one_shot = true
 speed_scale = 1.5
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_os5om")

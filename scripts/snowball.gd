@@ -44,7 +44,9 @@ func _physics_process(delta : float):
 		velocity_trigger.scale = velocity_trigger.scale*scale_factor
 		
 		snow_material.set_shader_parameter("object_scale", mesh.scale.x)
-		explosion_effect.increase_explosion_size(scale_factor)
+		
+		if current_radius > 0.25:
+			explosion_effect.set_explosion_size(10)
 				
 	if is_grounded:
 		linear_velocity += -linear_velocity*0.1
@@ -63,7 +65,7 @@ func init_large():
 	mesh.scale = mesh.scale*10
 	velocity_trigger.scale = velocity_trigger.scale*10
 	
-	explosion_effect.increase_explosion_size(10)
+	explosion_effect.set_explosion_size(10)
 	
 func lock_position():
 	linear_velocity = Vector3.ZERO
