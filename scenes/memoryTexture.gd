@@ -61,9 +61,8 @@ func _process(delta: float) -> void:
 	
 	#if (time > regen):
 	#	time = 0.0
-	var texture = ImageTexture.create_from_image(image)
-	$ground.material_override.set_shader_parameter("memoryTexture", texture)
 	#print($ground.material_override.get_shader_parameter("memoryTexture"))	
 	timeToNextSound -= delta
 	if timeToNextSound <= 0:
 		playSound = true
+	memTexture.update(image)
