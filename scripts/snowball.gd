@@ -22,7 +22,7 @@ var max_disable_collision_time = 0.1
 var disable_collision_time = 0
 
 # stacking
-@export var balance_thresh = 0.9 # [0,1]
+@export var balance_thresh = 0.95 # [0,1]
 @export var balance_thresh_lower = 0.1 # for smaller snowballs, or with multiple snowballs supporting it
 
 @onready var snow_material: Material = mesh.get_active_material(0);
@@ -89,13 +89,8 @@ func _on_body_entered(body):
 		if is_grounded and body.is_in_group("grounded"):
 			return
 		
-		# lower balance thresh if small snowball
-		var current_balance_thresh = balance_thresh
-		if current_radius < 0.1:
-			current_balance_thresh = balance_thresh_lower
-		
 		# check balance against single snowball
-		if (position - body.position).normalized().y > current_balance_thresh:
+		if (position - body.position).normalized().y > balance_thresh:
 			lock_position()
 			body.lock_position()
 			return
