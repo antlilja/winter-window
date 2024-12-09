@@ -10,3 +10,4 @@ metadata/_edit_group_ = true
 
 [node name="GPUParticles3D" parent="SnowGround" instance=ExtResource("2_eumpn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.251035, 10.0551, -0.570162)
+
