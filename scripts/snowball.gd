@@ -127,7 +127,7 @@ func _on_body_entered(body):
 				if (position - c.position).normalized().y > balance_thresh_lower:
 					support_count += 1
 		
-		if support_count > 1:
+		if false:#support_count > 1: created more problems than it solved
 			lock_position()
 			for c in collisions:
 				if c.is_in_group("snowball"):
