@@ -142,6 +142,7 @@ func _on_grabbed(pickable: Variant, by: Variant) -> void:
 	is_grabbed = true
 
 func _on_dropped(pickable: Variant) -> void:	
+	is_grabbed = false
 	disable_collision_time = max_disable_collision_time
 	set_collision_mask_value(18, false)
 
