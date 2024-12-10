@@ -26,9 +26,10 @@ func _process(delta: float) -> void:
 	time += delta
 	var data = viewportTexture.get_image()
 	var memData = memTexture.get_image()
-	for x in range(512):
-		
-		for y in range(512):
+	for x in range(128):
+		x += 128+64
+		for y in range(128):
+			y += 128+64
 			var pixel = data.get_pixel(x,y)
 			var memPixel = memData.get_pixel(x,y)
 			
