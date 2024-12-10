@@ -428,6 +428,7 @@ func _on_grip_pressed() -> void:
 			print("Snowball created!")
 			var snowball = snowball_scene.instantiate()
 			get_tree().root.add_child(snowball)
+			snowball.snow_material.set_shader_parameter("noise_seed", randf() * 100.0);
 			closest_object = snowball
 		_pick_up_object(closest_object)
 
