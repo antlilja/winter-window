@@ -104,8 +104,8 @@ void vertex() {
 
 uniform float object_scale = 1;
 
-uniform float sparkle_size = 10.0;
-uniform float sparkle_intensity = 10.0;
+uniform float sparkle_size = 3.0;
+uniform float sparkle_intensity = 6.0;
 
 void fragment() {
     NORMAL += texture(normal_nudge, UV * 3.0 * object_scale).rgb * 0.2;
@@ -136,7 +136,7 @@ shader_parameter/bump_scale = 40.0
 shader_parameter/bump_intensity = 0.1
 shader_parameter/object_scale = 1.0
 shader_parameter/sparkle_size = 3.0
-shader_parameter/sparkle_intensity = 3.0
+shader_parameter/sparkle_intensity = 6.0
 shader_parameter/normal_nudge = ExtResource("1_rif4l")
 shader_parameter/sparkle_dense = ExtResource("2_abpm0")
 shader_parameter/sparkle_sparse = ExtResource("3_w2y7t")
