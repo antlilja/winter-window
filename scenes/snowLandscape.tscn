@@ -9,10 +9,4 @@ metadata/_edit_group_ = true
 [node name="SnowGround" parent="." instance=ExtResource("1_b0l2x")]
 
 [node name="GPUParticles3D" parent="SnowGround" instance=ExtResource("2_eumpn")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.251035, 4.49213, -0.570162)
-
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.430511, 0.566791, -0.702431, 0, 0.778243, 0.627963, 0.902585, -0.270345, 0.335042, -9.574, 5.59, 0.751)
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-light_energy = 7.475
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.251035, 10.0551, -0.570162)

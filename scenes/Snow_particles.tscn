@@ -1,10 +1,18 @@
-[gd_scene load_steps=5 format=3 uid="uid://dmsc5eiausnd7"]
+[gd_scene load_steps=7 format=3 uid="uid://dmsc5eiausnd7"]
 
 [ext_resource type="Texture2D" uid="uid://c6fynoq0x4dl2" path="res://textures/snowflake.png" id="1_moks6"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6wiqr"]
 transparency = 1
+blend_mode = 1
 albedo_texture = ExtResource("1_moks6")
+
+[sub_resource type="Curve" id="Curve_it2hq"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.854806, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_bfnkm"]
+curve = SubResource("Curve_it2hq")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_y7uxb"]
 particle_flag_rotate_y = true
@@ -18,13 +26,14 @@ spread = 180.0
 angular_velocity_min = -1.60933e-05
 angular_velocity_max = 51.18
 gravity = Vector3(0, -0.1, 0)
+scale_curve = SubResource("CurveTexture_bfnkm")
 
 [sub_resource type="QuadMesh" id="QuadMesh_1rapk"]
-size = Vector2(0.1, 0.1)
+size = Vector2(0.05, 0.05)
 
 [node name="GPUParticles3D" type="GPUParticles3D"]
 material_override = SubResource("StandardMaterial3D_6wiqr")
-amount = 150
-lifetime = 10.0
+amount = 500
+lifetime = 30.0
 process_material = SubResource("ParticleProcessMaterial_y7uxb")
 draw_pass_1 = SubResource("QuadMesh_1rapk")
