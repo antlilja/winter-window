@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://d2knwtrq5b12j"
+path="res://.godot/imported/snow_deform.glsl-57c96fbf9d2b5d4a34e67b07375cc35f.res"
+
+[deps]
+
+source_file="res://shaders/snow_deform.glsl"
+dest_files=["res://.godot/imported/snow_deform.glsl-57c96fbf9d2b5d4a34e67b07375cc35f.res"]
+
+[params]
+

@@ -9,9 +9,6 @@ void fragment() {
 	view.xyz /= view.w;
 	float linear_depth = -view.z;
 
-	vec4 world = INV_VIEW_MATRIX * INV_PROJECTION_MATRIX * vec4(ndc, 1.0);
-	vec3 world_position = world.xyz / world.w;
-
 	// Visualize linear depth
-	ALBEDO.rgb = vec3(clamp(depth - (1.0 / 3.0), 0.0, 1.0));
+	ALBEDO.rgb = vec3(clamp(linear_depth - 1.0, 0.0, 5.0) / 5.0);
 }

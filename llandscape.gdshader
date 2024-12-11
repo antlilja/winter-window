@@ -1,5 +1,4 @@
 shader_type spatial;
-uniform sampler2D viewportTexture;
 uniform sampler2D memoryTexture;
 
 uniform float maxHeight = 1.0;
