@@ -3,7 +3,7 @@ extends XROrigin3D
 var snowball_scene = preload("res://scenes/snowball_pickable.tscn") #preload("res://scenes/snowball.tscn")
 var current_snowball: RigidBody3D = null
 @onready var right_hand: XRController3D = $RightHand
-
+@onready var snowballSound = $XRCamera3D/VRCommonShaderCache/SnowballSoundPlayer3D
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#var interface = XRServer.find_interface("OpenXR")
@@ -21,6 +21,7 @@ func create_snowball_on_hand(hand_node: XRNode3D) -> void:
 	current_snowball
 	hand_node.add_child(current_snowball)
 	current_snowball.freeze = true
+	snowballSound.play()
 	pass
 	
 func _on_right_hand_button_pressed(name: String) -> void:

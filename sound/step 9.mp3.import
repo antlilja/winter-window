@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://belse037oshsl"
+path="res://.godot/imported/step 9.mp3-343a64e0f605f59575711db6ca75c5ad.mp3str"
+
+[deps]
+
+source_file="res://sound/step 9.mp3"
+dest_files=["res://.godot/imported/step 9.mp3-343a64e0f605f59575711db6ca75c5ad.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

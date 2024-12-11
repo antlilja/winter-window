@@ -6,7 +6,11 @@ var regen = 2.0
 var time = 0.0
 @onready var viewportTexture = $ground.material_override.get_shader_parameter("viewportTexture")
 var memTexture
-
+var deformSound = true # Bara enkel sound toggle om det inte blir bra
+var soundTimer = 0.0
+var timeBetweenSounds = 1.0
+@onready var sound = $DeformSnowSoundPlayer3D
+var playSound = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -33,8 +37,9 @@ func _process(delta: float) -> void:
 	if (Input.is_key_pressed(KEY_R)):
 		self.reset_deformation()
 	
-	
 	time += delta
+	
+	
 	var data = viewportTexture.get_image()
 	var memData = memTexture.get_image()
 	for x in range(128):
@@ -49,6 +54,14 @@ func _process(delta: float) -> void:
 			# Deforms new snow
 			if pixel != Color(0, 0, 0, 1):
 				image.set_pixel(x, y, pixel)
+				
+				if playSound and deformSound and memPixel != pixel:
+					sound.play()
+					playSound = false
+					soundTimer = timeBetweenSounds
+					print(pixel)
+					print(memPixel)
+				
 				
 	#		var newPixel = memPixel
 			#Check previous snow and check if it should regenerate
@@ -69,3 +82,7 @@ func _process(delta: float) -> void:
 	var texture = ImageTexture.create_from_image(image)
 	$ground.material_override.set_shader_parameter("memoryTexture", texture)
 	#print($ground.material_override.get_shader_parameter("memoryTexture"))	
+	soundTimer -= delta
+	if soundTimer <= 0.0:
+		playSound = true
+	memTexture.update(image)
