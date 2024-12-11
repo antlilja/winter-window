@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://byg0t3p6j6o1w"]
+[gd_scene load_steps=29 format=3 uid="uid://byg0t3p6j6o1w"]
 
 [ext_resource type="Script" path="res://scenes/memoryTexture.gd" id="1_6eivj"]
 [ext_resource type="Shader" path="res://llandscape.gdshader" id="1_le35h"]
@@ -18,7 +18,6 @@
 [ext_resource type="AudioStream" uid="uid://5tds3tdrapx3" path="res://sound/step 8.mp3" id="16_8ati0"]
 [ext_resource type="AudioStream" uid="uid://belse037oshsl" path="res://sound/step 9.mp3" id="17_fd1a7"]
 [ext_resource type="AudioStream" uid="uid://bsgc61hp85bnq" path="res://sound/step 10.mp3" id="18_n2emy"]
-[ext_resource type="Script" path="res://scenes/testmove.gd" id="19_rc7n7"]
 
 [sub_resource type="Image" id="Image_tkmt3"]
 data = {
@@ -81,8 +80,6 @@ stream_12/stream = ExtResource("8_mlay8")
 stream_13/stream = ExtResource("9_jgvuv")
 stream_14/stream = ExtResource("10_a0ie0")
 
-[sub_resource type="BoxMesh" id="BoxMesh_hqxv4"]
-
 [node name="Node3D" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0303576, 0)
 script = ExtResource("1_6eivj")
@@ -113,9 +110,3 @@ volume_db = -18.0
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.941794, 0.336191, 0, -0.336191, 0.941794, 0, 1.66785, 0)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.992409, -0.122978, 0, 0.122978, 0.992409, -0.678, 1, -3.21)
-mesh = SubResource("BoxMesh_hqxv4")
-skeleton = NodePath("../Camera3D")
-script = ExtResource("19_rc7n7")
