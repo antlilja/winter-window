@@ -21,8 +21,19 @@ func _ready() -> void:
 		mat.set_shader_parameter("memoryTexture", texture)
 		memTexture = texture
 
+func reset_deformation() -> void:
+	for x in range(512):
+		for y in range(512):
+			image.set_pixel(x, y, 0)
+	var texture = ImageTexture.create_from_image(image)
+	$ground.material_override.set_shader_parameter("memoryTexture", texture)
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	if (Input.is_key_pressed(KEY_R)):
+		self.reset_deformation()
+	
+	
 	time += delta
 	var data = viewportTexture.get_image()
 	var memData = memTexture.get_image()
