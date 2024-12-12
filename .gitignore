@@ -3,12 +3,7 @@
 /android/
 export.cfg
 export_presets.cfg
+build/
 
-*.os
 *.so
-*.obj
-*.lib
-*.pdb
 *.dll
-*.exp
-*.dblite
