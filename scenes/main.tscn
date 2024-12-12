@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://d1l2bdq6b5d43"]
+[gd_scene load_steps=35 format=3 uid="uid://d1l2bdq6b5d43"]
 
 [ext_resource type="Script" path="res://scenes/xr_origin_3d.gd" id="1_tti6x"]
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/misc/vr_common_shader_cache.tscn" id="2_35npe"]
@@ -29,8 +29,18 @@ sky = SubResource("Sky_wxlwk")
 ambient_light_source = 3
 ambient_light_color = Color(0.825749, 0.841067, 0.929533, 1)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sjhb7"]
+albedo_color = Color(0.592157, 0.596078, 0.6, 1)
+
 [sub_resource type="BoxMesh" id="BoxMesh_5gofk"]
+material = SubResource("StandardMaterial3D_sjhb7")
 size = Vector3(0.1, 0.1, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tassm"]
+albedo_color = Color(0.352941, 0.384314, 0.372549, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_3besn"]
+material = SubResource("StandardMaterial3D_tassm")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_pt7wx"]
 radius = 0.0664894
@@ -112,7 +122,6 @@ grip_action = "trigger"
 
 [node name="official_vive2_controller" parent="SubViewport/XROrigin3D/RightHand" instance=ExtResource("6_xkmkk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0104761, 0.00956999)
-visible = false
 
 [node name="LeftHand" type="XRController3D" parent="SubViewport/XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.683742, 0)
@@ -128,7 +137,6 @@ grip_action = "trigger"
 
 [node name="official_vive2_controller" parent="SubViewport/XROrigin3D/LeftHand" instance=ExtResource("6_xkmkk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0104761, 0.00956999)
-visible = false
 
 [node name="CameraTracker" type="XRController3D" parent="SubViewport/XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.803717, 1.0514)
@@ -136,10 +144,15 @@ tracker = &"/user/vive_tracker_htcx/role/camera"
 script = ExtResource("6_qqexs")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewport/XROrigin3D/CameraTracker"]
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("BoxMesh_5gofk")
 
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="SubViewport/XROrigin3D/CameraTracker"]
+transform = Transform3D(0.0353553, -0.0353553, 0, 0.0353553, 0.0353553, 0, 0, 0, 0.05, 0.01, -0.01, 0)
+mesh = SubResource("CylinderMesh_3besn")
+
 [node name="RemoteTransform3D" type="RemoteTransform3D" parent="SubViewport/XROrigin3D/CameraTracker"]
-transform = Transform3D(-0.564863, 0.0996005, -0.819152, -0.806707, 0.142244, 0.573576, 0.173648, 0.984808, -3.58063e-08, 0, 0, 0)
+transform = Transform3D(-0.671684, -0.0894605, -0.735416, -0.738454, 0.00128883, 0.674302, -0.0593756, 0.99599, -0.0669281, 0, 0, 0)
 remote_path = NodePath("../../../../Camera3D")
 script = ExtResource("8_0d4es")
 
@@ -151,7 +164,7 @@ collision_mask = 5
 shape = SubResource("SphereShape3D_pt7wx")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-0.564863, 0.0996005, -0.819152, -0.806707, 0.142244, 0.573576, 0.173648, 0.984808, -3.58063e-08, 0, 0.803717, 1.0514)
+transform = Transform3D(-0.671684, -0.0894605, -0.735416, -0.738454, 0.00128883, 0.674302, -0.0593756, 0.99599, -0.0669281, 0, 0.803717, 1.0514)
 cull_mask = 1048571
 current = true
 fov = 42.5

@@ -43,4 +43,5 @@ func _process(delta: float) -> void:
 	
 	if Input.is_key_pressed(KEY_O):
 		print(rotation)
+		print(360 * rotation / (2 * 3.1415))
 	pass
