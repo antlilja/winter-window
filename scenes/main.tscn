@@ -43,7 +43,7 @@ albedo_color = Color(0.352941, 0.384314, 0.372549, 1)
 material = SubResource("StandardMaterial3D_tassm")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_pt7wx"]
-radius = 0.0664894
+radius = 0.0797652
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8pmhv"]
 render_priority = 0
