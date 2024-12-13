@@ -19,7 +19,7 @@ void main() {
     float memory_value = imageLoad(memory, coord).r;
     
     float new_value = memory_value;
-    if (viewport_value > 0.0f && viewport_value < memory_value) {
+    if (viewport_value < memory_value) {
         new_value = viewport_value;
         noise_value = min(noise_value, viewport_value);
     }
