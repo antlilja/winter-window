@@ -4,6 +4,10 @@ extends XRToolsPickable
 @onready var collision_shape = $CollisionShape3D
 @onready var velocity_trigger = $VelocityTrigger
 @onready var explosion_effect = $Explosion
+@onready var snowballSound = $PickupSoundPlayer
+@onready var deformationSound = $SnowDeformSoundPlayer
+
+
 
 @export var is_grounded = false
 @export var is_grabbed = false
@@ -106,6 +110,7 @@ func _on_body_entered(body):
 		return
 	
 	if body.is_in_group("ground"):
+		play_snow_deformation_sound()
 		set_grounded(true)		
 		
 	if body.is_in_group("snowball"):
@@ -149,3 +154,9 @@ func _on_dropped(pickable: Variant) -> void:
 func _on_area_3d_area_entered(area: Area3D) -> void:
 	collision_velocity = linear_velocity
 	#is_grabbed = false
+	
+func play_snowball_creation_sound():
+	snowballSound.play()
+	
+func play_snow_deformation_sound():
+	deformationSound.play()

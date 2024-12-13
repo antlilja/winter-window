@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://b32ck1qq3b6v"]
+[gd_scene load_steps=53 format=3 uid="uid://b32ck1qq3b6v"]
 
 [ext_resource type="PackedScene" uid="uid://c25yxb0vt53vc" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" id="2_85yq8"]
 [ext_resource type="Script" path="res://scripts/snowball.gd" id="2_a1nou"]
@@ -9,6 +9,25 @@
 [ext_resource type="Animation" uid="uid://wcwa3p1qrhwr" path="res://addons/godot-xr-tools/hands/animations/right/Rounded.res" id="6_1qy3h"]
 [ext_resource type="Script" path="res://scripts/explosion.gd" id="8_y7kxm"]
 [ext_resource type="Texture2D" uid="uid://dv8ndbt2k1kqn" path="res://textures/circle.png" id="9_mek3f"]
+[ext_resource type="AudioStream" uid="uid://ddayrkr3reiwg" path="res://sound/step 1.mp3" id="10_qi8cr"]
+[ext_resource type="AudioStream" uid="uid://c4kbgdfq1xb2r" path="res://sound/ball crunch 1.mp3" id="10_tp3xt"]
+[ext_resource type="AudioStream" uid="uid://bk7xy3il6qroe" path="res://sound/step 2.mp3" id="11_t30ge"]
+[ext_resource type="AudioStream" uid="uid://b5ksiquyr07vf" path="res://sound/ball crunch 2.mp3" id="11_wil1b"]
+[ext_resource type="AudioStream" uid="uid://d3hsahb2cevlc" path="res://sound/ball crunch 3.mp3" id="12_4rd1y"]
+[ext_resource type="AudioStream" uid="uid://bkmbiu1x0unfg" path="res://sound/step 11.mp3" id="12_gqqrp"]
+[ext_resource type="AudioStream" uid="uid://dwqogsprneax7" path="res://sound/step 12.mp3" id="13_0xejq"]
+[ext_resource type="AudioStream" uid="uid://0hy0ogvav4y8" path="res://sound/ball crunch 4.mp3" id="13_y821v"]
+[ext_resource type="AudioStream" uid="uid://cn7hcpdylxhwi" path="res://sound/step 13.mp3" id="14_kuy5x"]
+[ext_resource type="AudioStream" uid="uid://cyhyjvx2f2vf7" path="res://sound/step 15.mp3" id="15_s18s8"]
+[ext_resource type="AudioStream" uid="uid://cpvkhpd7lsij6" path="res://sound/step 16.mp3" id="16_l1455"]
+[ext_resource type="AudioStream" uid="uid://ch2drl6b654lf" path="res://sound/step 3.mp3" id="17_n2fid"]
+[ext_resource type="AudioStream" uid="uid://c25mrfks0uxdl" path="res://sound/step 4.mp3" id="18_onwgd"]
+[ext_resource type="AudioStream" uid="uid://do2qoasn5ucf4" path="res://sound/step 5.mp3" id="19_jnmvm"]
+[ext_resource type="AudioStream" uid="uid://cwyt0ggaf0ow1" path="res://sound/step 6.mp3" id="20_hjtm2"]
+[ext_resource type="AudioStream" uid="uid://dksifhmvvc82i" path="res://sound/step 7.mp3" id="21_vrgxe"]
+[ext_resource type="AudioStream" uid="uid://cyg2pplvchj3j" path="res://sound/step 8.mp3" id="22_ggkv4"]
+[ext_resource type="AudioStream" uid="uid://dfcs0b3kpjyld" path="res://sound/step 9.mp3" id="23_bdr3u"]
+[ext_resource type="AudioStream" uid="uid://kg4adwyll6nf" path="res://sound/step 10.mp3" id="24_lgfcs"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nhfe7"]
 
@@ -108,6 +127,31 @@ material = SubResource("StandardMaterial3D_fp1o2")
 radius = 0.04
 height = 0.08
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_1lhkt"]
+streams_count = 15
+stream_0/stream = ExtResource("10_qi8cr")
+stream_1/stream = ExtResource("11_t30ge")
+stream_2/stream = ExtResource("17_n2fid")
+stream_3/stream = ExtResource("18_onwgd")
+stream_4/stream = ExtResource("19_jnmvm")
+stream_5/stream = ExtResource("20_hjtm2")
+stream_6/stream = ExtResource("21_vrgxe")
+stream_7/stream = ExtResource("22_ggkv4")
+stream_8/stream = ExtResource("23_bdr3u")
+stream_9/stream = ExtResource("24_lgfcs")
+stream_10/stream = ExtResource("12_gqqrp")
+stream_11/stream = ExtResource("13_0xejq")
+stream_12/stream = ExtResource("14_kuy5x")
+stream_13/stream = ExtResource("15_s18s8")
+stream_14/stream = ExtResource("16_l1455")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_xm50o"]
+streams_count = 4
+stream_0/stream = ExtResource("10_tp3xt")
+stream_1/stream = ExtResource("11_wil1b")
+stream_2/stream = ExtResource("12_4rd1y")
+stream_3/stream = ExtResource("13_y821v")
+
 [node name="Snowball" type="RigidBody3D" groups=["snowball"]]
 collision_layer = 4
 collision_mask = 196615
@@ -177,6 +221,14 @@ process_material = SubResource("ParticleProcessMaterial_os5om")
 draw_pass_1 = SubResource("SphereMesh_tknbl")
 
 [node name="Timer" type="Timer" parent="Explosion"]
+
+[node name="SnowDeformSoundPlayer" type="AudioStreamPlayer3D" parent="."]
+stream = SubResource("AudioStreamRandomizer_1lhkt")
+volume_db = -24.0
+max_polyphony = 2
+
+[node name="PickupSoundPlayer" type="AudioStreamPlayer3D" parent="."]
+stream = SubResource("AudioStreamRandomizer_xm50o")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]
