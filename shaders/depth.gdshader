@@ -13,11 +13,11 @@ void vertex() {
 }
 
 void fragment() {
-	float depth = texture(depth_texture, SCREEN_UV).x;
+	float depth = texture(depth_texture, SCREEN_UV).r / 1000.0f;
 	depth = clamp(depth, near, far);
 	depth = 1.0 - ((depth * (far / (far - near))) + ((far * near) / (near - far))) / depth;
 	DEPTH = depth;
-	
+
 	if(show_depth) {
 		ALBEDO = vec3(depth);
 	} else {

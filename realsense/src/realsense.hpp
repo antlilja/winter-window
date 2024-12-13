@@ -2,8 +2,13 @@
 
 #include <memory>
 
-#include <godot_cpp/classes/object.hpp>
 #include <godot_cpp/core/class_db.hpp>
+
+#include <godot_cpp/classes/object.hpp>
+#include <godot_cpp/classes/rendering_device.hpp>
+#include <godot_cpp/classes/texture2drd.hpp>
+#include <godot_cpp/classes/image.hpp>
+#include <godot_cpp/classes/image_texture.hpp>
 
 #include <godot_cpp/variant/packed_byte_array.hpp>
 
@@ -25,8 +30,18 @@ class RealSense : public Object
 	//rs2::spatial_filter spatial_filter;
 	//rs2::temporal_filter temporal_filter;
 
-	PackedByteArray colour_image_data;
+	RenderingDevice* rd;
+	// RID pipeline;
+	// RID uniform_set;
+
+	Ref<Image> colour_image;
+	Ref<ImageTexture> colour_image_texture;
+
 	PackedByteArray depth_image_data;
+	RID depth_texture_rid;
+	Ref<Texture2DRD> depth_texture;
+	// RID output_depth_texture_rid;
+	// Ref<Texture2DRD> output_depth_texture;
 
 protected:
 	static void _bind_methods();
@@ -37,9 +52,9 @@ public:
 	RealSense();
 	~RealSense();
 
-	bool poll_frame();
+	void process_frame();
 	void open();
 	void close();
-	PackedByteArray get_colour_image();
-	PackedByteArray get_depth_image();
+	Ref<ImageTexture> get_colour_texture();
+	Ref<Texture2DRD> get_depth_texture();
 };
